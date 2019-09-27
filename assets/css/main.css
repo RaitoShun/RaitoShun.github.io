@@ -251,6 +251,16 @@ input, select, textarea {
 		top: 5%;
 	}
 
+	#three .hider{
+		left:0;
+		top: 0;
+		margin-top: 15px;
+	}
+
+	#three ul{
+		text-align: center;
+	}
+
 /* Loader */
 
 	@-moz-keyframes spinner-show {
