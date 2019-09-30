@@ -1,29 +1,62 @@
-<!DOCTYPE html>
-<html style=" height: 85%;" >
-<head>
-	<meta charset="utf-8">
-	<title>Post Email</title>
-	<link rel="stylesheet" href="assets/css/main.css" />
-</head>
-<body>
-
-	<section style="padding-top: 15em;" class="wrapper style3 special fade-up">
-		<div class="container">
-		<header class="">
-			<h3><strong>Thanks for sending!</strong></h3>
-			<a class="button" href="index.html">Return To Portfolio</a>
-		</header>
-		</div>
-	</section>
 	<?php
-		$myEmailAddress = "abrahamthiao@gmail.com";
-		$subject = "Email from your portfolio!";
+		if(!isset($_POST['submit']))
+{
+	//This page should not be accessed directly. Need to submit the form.
+	echo "error; you need to submit the form!";
+}
+$name = $_POST['name'];
+$visitor_email = $_POST['email'];
+$message = $_POST['message'];
 
-		$name = $_POST['Name'];
-		$email = $_POST['Email'];
-		$message = $_POST['Message'];
+//Validate first
+if(empty($name)||empty($visitor_email)) 
+{
+    echo "Name and email are mandatory!";
+    exit;
+}
 
-		mail($myEmailAddress, $subject, $message, $header);
+if(IsInjected($visitor_email))
+{
+    echo "Bad email value!";
+    exit;
+}
+
+$email_from = $_POST['email'];
+$email_subject = "New email from portfolio";
+$email_body = "You have received a new message from the user $name.\n".
+    "Here is the message:\n $message".
+    
+$to = "abithiao@gmail.com";
+$headers = "From: $email_from \r\n";
+$headers .= "Reply-To: $visitor_email \r\n";
+mail($to,$email_subject,$email_body,$headers);
+header('Location: thank-you.html');
+
+
+// Function to validate against any email injection attempts
+function IsInjected($str)
+{
+  $injections = array('(\n+)',
+              '(\r+)',
+              '(\t+)',
+              '(%0A+)',
+              '(%0D+)',
+              '(%08+)',
+              '(%09+)'
+              );
+  $inject = join('|', $injections);
+  $inject = "/$inject/i";
+  if(preg_match($inject,$str))
+    {
+    return true;
+  }
+  else
+    {
+    return false;
+  }
+}
+   
+?> 
 
 	?>
 
