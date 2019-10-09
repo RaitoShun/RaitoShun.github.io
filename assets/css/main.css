@@ -261,6 +261,34 @@ input, select, textarea {
 		text-align: center;
 	}
 
+	#one{
+		z-index: 21;
+	}
+
+	.projects{
+		 background: black;
+		 height: 8%; 
+		 position: fixed; 
+		 z-index: 8;
+		 width: 100%;
+		 opacity: 1;
+		 transition: 0.2s all ease-in;
+		 color: red;
+		 border-bottom: 5px solid red;
+		 text-align: center;
+		 padding: 1em 0; 
+		 font-size: 1.3em;
+		 font-family: 'Turret Road', sans-serif;
+	}
+
+	.projects-active{
+		opacity: 0;
+		transition: 0.2s all ease-in;
+	}
+	.content p{
+		font-size: 0.9em;
+	}
+
 /* Loader */
 
 	@-moz-keyframes spinner-show {
@@ -1440,9 +1468,8 @@ input, select, textarea {
 
 		@media screen and (max-width: 980px) {
 
-			.hider{
-				opacity: 0;
-				position: absolute;
+			div .hider{
+				display: none;
 			}
 
 			.row {

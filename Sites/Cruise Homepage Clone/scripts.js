@@ -23,8 +23,7 @@ const navMenu = document.querySelector('.navlist');
 
 /*Start up of the page*/
 
-function Load() {
-	const initCoords = play.getBoundingClientRect();
+const initCoords = play.getBoundingClientRect();
 
 	const coords = {
 		width: initCoords.width,
@@ -32,6 +31,8 @@ function Load() {
         top: initCoords.top - play.top,
         left: initCoords.left - play.left 
 	}
+
+function Load() {
 
   highlight.style.width = `${coords.width- 3}px`;
   highlight.style.height = `${coords.height - 3}px`;
@@ -69,12 +70,12 @@ function fillCounter() {
 	    counter.strokeStyle = 'red';  // Stroke Color
 	    counter.lineWidth = 4;
 	    counter.beginPath();
-	    counter.arc(40,40,38,pointToFill,diff / 10 + pointToFill); //arc(x,y,radius,start,stop)
+	    counter.arc(40,40,coords.width / 2.5,pointToFill,diff / 10 + pointToFill); //arc(x,y,radius,start,stop)
 	    counter.stroke();   // to fill stroke
 	    
 	    if(no >= 100) {
 	        clearTimeout(fill);
-	        done = true; //fill is a variable that call the function fillcounter()
+	        done = true; //fill is a variable that calls the function fillcounter()
 	     }
 	     if(done === true){
 	     	start();
@@ -126,9 +127,10 @@ function highlightMove() {
 	play.style.width = `${coords.width }px`;
 	play.style.width =  `${coords.height}px`;
 	highlight.style.height = `${coords.height}px`;
-	play.style.top = '90%';
+	play.style.transition = '1s all cubic-bezier(.68,-0.55,.27,1.55)';
+	play.style.top = '76%';
 	highlight.style.borderColor = 'white';
-	play.style.transition = '1s all';
+	
 }
 
 function landAnim() {
@@ -148,7 +150,7 @@ function start(){
 
 /*Anything to do with the Nav Bar*/
 function newNav() {
- if(scroller.scrollTop >= landing.clientHeight + nav.clientHeight * 0.8) {
+ if(scroller.scrollTop >= (landing.clientHeight + nav.clientHeight )* 0.8) {
   nav.classList.add('active-nav');
  } else {
   nav.classList.remove('active-nav');
