@@ -45,11 +45,21 @@
 									</header>
 								</div>
 								<div class="col-4 col-12-medium">
-									<p>Hi there! My name is Abraham Bassir Thiao and I am a Grade 10 student at Fourways High. I'm a junior web developer that works with front and back-end technologies. 
-				   I am an avid hoobyist in the field. I love programming complex algorithms and making sleek designs. I have been coding since September 2015 and am consistently and gradually improving. My skills include HTML5, CSS3, JS ES8, ReactJS, Node.js, Wordpress, Delphi and SASS.</p>
+									<p>
+									  	 Hi there! My name is Abraham Bassir Thiao and I am a Grade 11 student at Fourways High. 
+									   	I'm a web developer that works with mostly front-end and some back-end technologies. 
+				   					   	I am an avid hoobyist in the field. I love programming complex algorithms and making sleek designs.
+										I have been coding since September 2015 and am consistently and gradually improving. 
+										My skills include HTML5, CSS3, Javascript, ReactJS, Node.js, Wordpress, Delphi and Bootstrap.
+									</p>
 								</div>
 								<div class="col-4 col-12-medium">
-									<p>I am passionate about technology and self-improvement. I seek to soak up as much information and as many skills as I can. I have an unrelenting work ethic. I communicate effectively and concisely. I am able to think independently.</p>
+									<p>
+										I am passionate about technology and self-improvement. I seek to soak up as much information and as
+										 many skills as I can. I have an unrelenting work ethic. 
+										 I communicate effectively and concisely. 
+										 I am able to think independently.
+									</p>
 								</div>						
 							</div>
 							<h5>Click on these to contact me!</h5>
@@ -74,9 +84,13 @@
 						<header>
 							<p>Sample Project #1</p>
 							<h2>Senghor Polska Sp z.o.o Website</h2>
-							<p>Skills: Wordpress (Elementor)</p>
+							<p>Skills: HTML5, CSS3, Javascript, Bootstrap</p>
 						</header>
-						<p>This is the official website I made for my father's company without any experience using Wordpress. It was extremely fun to play around with the colour combinations to render some cool looking designs. The difficulty was learning the operation of the CMS and working with the databases.</p>
+						<p>
+							This is a replica of the official website I made for my father's company without any experience using Wordpress. 
+							It was a project I made with my brother and it was fun to work with team dynamics. 
+							The difficulty was mostly making it responsive in nature as we both had confilcting design ideas. Luckily, everything worked out.
+						</p>
 						<ul class="actions">
 							<li>
 								<a rel="noopener noreferrer" target="_blank"  href="./Sites/Senghor-SA/Home/index.html" class="button">View Page</a>
@@ -111,14 +125,19 @@
 
 				<!-- Five -->
 				<section id="five" class="spotlight style3 left ">
-					<span class="image fit main bottom"><img src="Cake.png" alt="" /></span>
+					<span class="image fit main bottom"><img src="Ovens.png" alt="" /></span>
 					<div class="content">
 						<header>
 							<p>Sample Project #3</p>
-							<h2>Cake Gallery Webpage</h2>
-							<p>Skills: HTML5, CSS3, CSS Grid</p>
+							<h2>FurNice Homepage</h2>
+							<p>Skills: HTML5, CSS3, Javascript</p>
 						</header>
-						<p>As my first ever project, it holds a special place in my heart. Though extremely basic in function and easy to make, it was nonetheless fun. If you need a cake recipe, it can provide you with one. Simply click on a cake. It is mostly a display of copywriting prowess and CSS Grid if anything. The difficulty in it was the mobile responsiveness, as well grid mechanics.</p>
+						<p>
+							In this excitiing project, I attempted to make a stunning website without the use of CSS or Javascript libraries.
+							I had much enjoyment in making the design have this masculine, strong and powerful feel to it even though the page is only about ovens.
+							The difficulty was obviously found in the implementation of code without libraries.
+							Definitely one of my favourites.	
+						</p>
 						<ul class="actions">
 							<li>
 								<a rel="noopener noreferrer" target="_blank" href="./Sites/Cake Webpage/index.html" class="button">View Page</a>
@@ -199,7 +218,8 @@
 							<h2>Say Hi!</h2>
 							<p>If you'd rather contact me via e-mail, feel free to pop a message.</p>
 							<header>
-								<p style="background: #fff; color: black; width: 12em;">abrahamthiao@gmail.com</p>
+								<p class="copy-notif">Copied to clipboard!</p>
+								<input id="myInput" style=" color: black;" onclick="myFunction()" value="abrahamthiao@gmail.com" readonly>
 							</header>
 						</header>
 						
@@ -225,52 +245,14 @@
 		</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-			<script type="text/javascript">
-
-				const navBar = document.querySelector('.projects');
-				const six = document.querySelector('#six');
-
-					function debounce(func, wait = 5, immediate = true) {  /*prevents the function that happens on scroll from firing a lot to preserve performance*/
-					      var timeout;
-					      return function() {
-					        var context = this, args = arguments;
-					        var later = function() {
-					          timeout = null;
-					          if (!immediate) func.apply(context, args);
-					        };
-					        var callNow = immediate && !timeout;
-					        clearTimeout(timeout);
-					        timeout = setTimeout(later, wait);
-					        if (callNow) func.apply(context, args);
-					      };
-					    }				
-
-					function navig(){
-						if(window.scrollY + navBar.clientHeight  > six.offsetTop){
-						navBar.classList.add('projects-active');
-					}else{
-						navBar.classList.remove('projects-active');
-					}
-
-				}
-				window.addEventListener('scroll', debounce(navig));
-
-				const hide = (event) => {
-					 event.target.offsetParent.offsetParent.classList.add('inactive');
-					 event.target.offsetParent.offsetParent.classList.remove('active');
-
-				}
-
-			 
-			</script>
-
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/jquery.dropotron.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script type="text/javascript" src="index.js"></script>
 	</body>
 </html>
