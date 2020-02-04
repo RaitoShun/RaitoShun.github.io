@@ -34,7 +34,7 @@
 				}
 
 
-                function myFunction() {
+                function copyEmail() {
                     /* Get the text field */
                     var copyText = document.getElementById("myInput");
                     let copyButt = document.querySelector(".copy-notif");
