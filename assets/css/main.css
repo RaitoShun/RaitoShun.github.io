@@ -3220,8 +3220,45 @@ input, select, textarea {
 			border-color: red;
 		}
 
+		.spotlight .unhider{
+			opacity: 0;
+			position: relative; 
+			top: -50%;
+			z-index: 10;
+			left: -40px;
+		}
+
 		.spotlight.inactive .content {
 			opacity: 0;
+		}
+		.unhider{
+			opacity: 0;
+			background: rgba(255, 255, 255, 0.55);
+			border-radius: 100%;
+			width: 80px;
+			height: auto;
+			text-align: right;
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
+
+		.unhider div{
+			pointer-events: none;
+		}
+
+		.spotlight.inactive .unhider{
+			opacity: 1;
+		}
+
+		.spotlight.active .unhider{
+			opacity: 0;
+		}
+
+		.spotlight.right .unhider{
+			float: right;
+			left: initial;
+			right: -40px;
+			padding-right: 50px;
 		}
 
 		.spotlight.inactive .goto-next {
@@ -3230,6 +3267,7 @@ input, select, textarea {
 			-ms-transform: translate(0,1.5em);
 			transform: translate(0,1.5em);
 			opacity: 0;
+			cursor: initial;
 		}
 
 		.spotlight.inactive.top .content {
