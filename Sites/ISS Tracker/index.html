@@ -61,7 +61,7 @@
     //Creating the Cloud geometry, Material and making a mesh
     var cloudGeometry = new THREE.SphereGeometry(1.01, 33, 33)
         var cloudMaterial = new THREE.MeshPhongMaterial({
-            map: loader.load('https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Earth-clouds.png/800px-Earth-clouds.png'),
+            map: loader.load('assets/textures/Earth-clouds.png'),
             opacity: 0.8,
             side: THREE.DoubleSide,
             transparent: true,
@@ -174,7 +174,7 @@
             let introParagraphTip = document.querySelector('p');
             let loadScreen = document.getElementById("load_screen");
             //Initial Position Fetch(ISS)
-            fetch('http://api.open-notify.org/iss-now.json')
+            fetch('//api.open-notify.org/iss-now.json')
                 .then((response) => {
                     return response.json();
                 })
@@ -194,7 +194,7 @@
 
     //Repeat updates for ISS position
     setInterval(() => {
-            fetch('http://api.open-notify.org/iss-now.json')
+            fetch('//api.open-notify.org/iss-now.json')
                 .then((response) => {
                     return response.json();
                 })
