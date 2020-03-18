@@ -1,4 +1,4 @@
-html,body,h1{
+*{
   margin: 0;
   padding: 0;
 }
@@ -9,6 +9,33 @@ body{
   padding-top: 1px;
     background-color: rgb(36, 36, 36);
   
+}
+
+@keyframes entre-l {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes entre-r {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes arrow-swoosh{
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
 }
 
 @font-face {
@@ -36,14 +63,17 @@ body{
   display: block;
 }
 
-h1:hover .main-flame{
-  display: block;
-}
-
 .embla {
     overflow: hidden;
     height: 400px;
-    
+  }
+
+  .embla:hover{
+    cursor: grab;
+  }
+
+  .embla.is-dragging{
+    cursor:grabbing;
   }
   
   .embla__container {
@@ -56,7 +86,7 @@ h1:hover .main-flame{
   .embla__slide {
     margin-top: 10px;
     position: relative; /* Needed if loop: true */
-    flex: 0 0 100%; /* Choose any slide width */
+    flex: 0 0 100%; /*Choose any slide width*/
     color: black;
     height: 400px;
     width: 80%;
@@ -80,7 +110,6 @@ h1:hover .main-flame{
     overflow: hidden;
 
   }
-  
   .embla2{
     overflow: hidden;
     width:100%;
@@ -133,33 +162,30 @@ h1:hover .main-flame{
 }
 .sticky{
   position: fixed;
-  /* background-color: rgb(255,127,39); */
   background-color: white;
   width: 100%;
   top: 0;
+}
+
+.sticky .floater{
   color: #111;
-}
-
-.sticky a{
-  color: #111 !important;
-}
-
-.topnav .floater{
-  position: relative;
-  left: 25%;
-  margin: 0 4%;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
   display: block;
-  color: white;
   text-align: center;
   padding: 14px 16px;
+  color: white;
   text-decoration: none;
   font-size: 17px;
+}
 
+.topnav .floater{
+  position: relative;
+  left: 25%;
+  margin: 0 4%;
 }
 
 #logo a {
@@ -173,15 +199,10 @@ h1:hover .main-flame{
   position: absolute;
   padding: 0;
   margin: 0;
-  top: -5%;
+  top: -0%;
   width: 150px;
 }
 
-/* Add an active class to highlight the current page */
-.active {
-  background-color: #4CAF50;
-  color: white;
-}
 
 /* Hide the link that should open and close the topnav on small screens */
 .topnav .icon {
@@ -201,23 +222,6 @@ h1:hover .main-flame{
   background-repeat: no-repeat;
 }
 
-@keyframes entre-l {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes entre-r {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
 
 .landing{
   height: 600px;
@@ -250,6 +254,8 @@ h1:hover .main-flame{
   -webkit-animation-name: entre-l;
   -webkit-animation-duration: 3s;
   animation-name: entre-l;
+  position: relative;
+  z-index: 3;
   animation-duration: 3s;
 }
 
@@ -264,32 +270,42 @@ h1:hover .main-flame{
 
 .landing .landing-img-container{
   position: relative;
+  float: right;
   top: -70%;
-  left: 75%;
+  width: 50%;
   margin: 0;
+  text-align: center;
   -webkit-animation-name: entre-r;
   -webkit-animation-duration: 2s;
   animation-name: entre-r;
   animation-duration: 2s;
 }
 
+.oven-container{
+  position: relative;
+  left: 30%;
+  display: block;
+}
+
 .oven2{
   z-index: 0;
-  position: relative;
-  left:-30%;
+  position: absolute;
+  display: block;
+  left: 90px;
 }
 
 .oven3{
   z-index: 0;
-  position: relative;
-  left:5%;
+  position: absolute;
+  display: block;
+  left: -90px;
 }
 
 .oven-main{
-  position: relative;
-  left:-35%;
-  top:20px;
+  position: absolute;
+  display: block;
   z-index: 0;
+  top: 20px;
 }
 
 .prod-gallery{
@@ -307,7 +323,7 @@ h1:hover .main-flame{
 .prod-gallery h1{
   color: white;
   text-align: center;
-  padding: 30px 0px;
+  padding-top: 30px;
   background-color: rgba(20, 20, 20, 1);
   width: 100%;
   font-family: 'Raskhal', cursive;
@@ -328,22 +344,38 @@ h1:hover .main-flame{
   font-family: "Marker", sans-serif;
 }
 
+.drag-prompt{
+  font-size: 2em;
+  position: absolute;
+  top: 30%;
+  left: 50px;
+  z-index: 5;
+  color: white;
+  font-family: "Raskhal",sans-serif;
+  transition-duration: 2s;
+}
+
+.drag-arrow{
+  height: 40px;
+  width: auto;
+  position: absolute;
+  top: 31%;
+  z-index: 5;
+  left: 50px;
+  -webkit-animation-name: arrow-swoosh;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  animation-name: arrow-swoosh;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transition-duration: 2s ;
+}
+
+#drag-prompt-container{transition: 2s ease;}
 
 .embla__slide__inner:hover .text-content{
   transform: translateY(70%);
-
 }
-/* .new-cook h3{ just in case you need this fam
-  margin: 0;
-  color: orange;
-  font-size: 30px;
-  background-color: #111;
-  padding-top: 20%;
-  padding-bottom: 15%;
-  border-bottom: 5px outset orange;
-  border-radius: 0.2em;
-} */
-
 
 .cooking{
   background: url('/assets/images/cooking.jpeg');
@@ -395,6 +427,14 @@ h1:hover .main-flame{
   border-right: 7px solid orange;
   color: white;
   
+}
+
+.text-info a{
+  color: orange;
+}
+
+.text-info a:active{
+  color: orangered;
 }
 
 .text-info h3{
@@ -471,12 +511,16 @@ h1:hover .main-flame{
   padding-top: 50px;
   padding-bottom: 50px;
   font-family: 'Raskhal', cursive;
+  color: #111;
 }
 
 .award-text{
   position: relative;
   top: 25%;
+  font-family: 'Marker', cursive;
+  color: white;
 }
+.award-text h4{color:#999;}
 
 footer{
   background-color: #111;
@@ -505,10 +549,10 @@ footer h3{
 }
 .span12{
   float: left;
-  top:25%;
-  left: 50%;
+  top: 25%;
+  left: 30%;
   z-index: -1;
-  width: 50%;
+  width: 80%;
 
 }
 .span3{
@@ -540,8 +584,8 @@ footer h3{
 
 .article-list{
   position: relative;
-  padding: 10px 10px;
   width:40%;
+  margin: 0;
   float: left;
   text-align: left;
   color: white;
@@ -551,12 +595,9 @@ footer h3{
   text-align: left;
   background-color: #111;
   font-family: "Marker", sans-serif;
-  /* border: 1px solid white; */
-  /* padding: 15px 20px; */
   color: white;
 }
 .article-list p{
-  padding: 5px 5px;
   margin: 0;
 
 }
@@ -570,38 +611,33 @@ footer h3{
 }
 
 .info-list{
-  margin-top: 35px;
-  width: 30%;
-  position: relative;
-  float: right;
+  width: 50%;
+  position: absolute;
   height: 400px;
-  text-align: left;
-  position: relative;
-  left: -10%;
+  right: 10%;
+  text-align: center;
   color: white;
+  font-family: 'Marker', cursive;
 }
 
 .legal-links{
-  margin-bottom: 20%;
+  margin-bottom: 10%;
   list-style: none;
   position: relative;
-  left: -10%;
   padding: 0;
 }
 
 .social-links{
-  margin-bottom: 20%;
+  margin-bottom: 10%;
   list-style: none;
   position: relative;
-  left: -10%;
   padding: 0;
 }
 
 .company-info{
-  margin-bottom: 20%;
+  margin-bottom: 10%;
   list-style: none;
   position: relative;
-  left: -10%;
   padding: 0;
 }
 
@@ -617,21 +653,14 @@ footer h3{
   font-family: "Marker", sans-serif;
 }
 
+.copyright p{
+  position: relative;
+  top: 30%;
+}
+
+/* MEDIA QUERIES */
 
 @media screen and (max-width: 1400px) {
-  .oven2,.oven3{
-    display: none;
-  }
-
-  .oven-main{
-    left: -10%;
-    height: 400px;
-  }
-  .landing-img-container{
-    position: relative;
-    top:-80% ;
-  }
-
   .article-list img{
     position: relative;
     top: 5px;
@@ -652,14 +681,12 @@ footer h3{
 }
 
 @media screen and (max-width: 945px) {
-  .oven-main{
-    left: -25%;
-    height: 400px;
+  .oven-container{
+    left: -10%;
   }
 
-  .landing-img-container{
-    position: relative;
-    top:-60% !important;
+  .landing .landing-img-container{
+   top: -60%;
   }
 
   .landing{
@@ -716,21 +743,37 @@ footer h3{
   .topnavLinks a{
     display: none;
   }
-  .topnavLinks a.icon {
+  .topnav .icon {
     float: right;
     display: block;
   }
 
-  .topnavLinks.responsive {position: relative;}
-  .topnavLinks.responsive a.icon {
+  .topnav .responsive a{
     position: absolute;
+    display:block;
     right: 0;
     top: 0;
   }
+  .topnav.sticky .icon{color:black;}
   .topnavLinks.responsive a {
-    float: none;
     display: block;
-    text-align: left;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid white;
+  }
+
+  .floater:hover .underline-flame{
+    display: none;
+  }
+
+
+  .sticky .topnavLinks.responsive a {
+    display: block;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid black;
   }
   .topnav .floater{
     position: relative;
@@ -744,7 +787,6 @@ footer h3{
   .info-list{
     font-size: 12px;
   }
-
 
   .landing-img-container{
     position: absolute;
@@ -787,8 +829,6 @@ footer h3{
     height: 100px;
     top: -60%;
     background-attachment: unset;
-    
-    /* display: none ; */
   }
   .info-right .text-info{
     width: 100%;
@@ -801,7 +841,6 @@ footer h3{
   }
 
   .info-left .info-img{
-    /* display: none; */
     float: none;
     width: 100% !important;
     height: 100px;
@@ -828,7 +867,6 @@ footer h3{
 
   .text-info h3{
     margin: 0;
-    /* color: #111; */
     text-align: center;
     position: relative;
     top: 20%;
@@ -895,10 +933,11 @@ footer h3{
   
   .article-list{
     position: relative;
-    padding: 10px 10px;
     width:100%;
+    padding: 0;
     float: left;
-    text-align: left;
+    height: 500px;
+    text-align: center;
     color: white;
     float: none;
     text-align: center;
@@ -909,13 +948,10 @@ footer h3{
     background-color: #111;
     font-family: "Marker", sans-serif;
     position: relative;
-    left: 25%;
-    /* border: 1px solid white; */
-    /* padding: 15px 20px; */
     color: white;
+    margin-top: 20px;
   }
   .article-list p{
-    padding: 5px 5px;
     margin: 0;
   
   }
@@ -929,18 +965,12 @@ footer h3{
   }
   
   .info-list{
-    margin-top: 15px;
     width: 100%;
+    right:0;
     height: auto;
-    text-align: left;
-    position: relative;
     text-align: center;
-    left: 0%;
-    top:0%;
-    color: white;
-    float: none;
     border-top: 1px solid white;
-
+    padding-top: 50px;
   }
   
   .legal-links{
@@ -963,11 +993,11 @@ footer h3{
     position: relative;
     left: 0%;
   }
-  
-}
 
-.topnav{
-  height: auto;
+  .copyright{
+    text-align: center;
+  }
+  
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
@@ -980,12 +1010,8 @@ footer h3{
   }
 
   .landing-img-container{
-    position: absolute;
-    top:-60% !important;
-    left: -25%;
     display: none;
   }
-
 
   .embla__container {
     display: flex;
@@ -1004,17 +1030,17 @@ footer h3{
   }
 
   .landing-text .upper-text{
-    font-size: 36px;
+    font-size: 3rem;
     left: 20%;
   }
   .landing-text h1{
     top:30%;
-    left: 10%;
-    font-size: 36px;
+    left: 25%;
+    font-size: 2rem;
   }
   .reasons{
     height: 700px;
-    padding-top: 50px ;
+    padding-top: 50px;
   }
   .reasons .info-right,.reasons .info-left{
     height: 50%;
@@ -1056,15 +1082,6 @@ footer h3{
     position: relative;
     
   }
-   footer .span12{
-    float: none;
-    top:0%;
-    left: 0%;
-    z-index: -1;
-    width: 100%;
-    height: 600px;
-  
-  }
    footer .span3{
     width: 100%;
     top:25%;
@@ -1096,7 +1113,6 @@ footer h3{
   
   .article-list{
     position: relative;
-    padding: 10px 10px;
     width:100%;
     float: left;
     text-align: left;
@@ -1110,15 +1126,11 @@ footer h3{
     background-color: #111;
     font-family: "Marker", sans-serif;
     position: relative;
-    left: 25%;
-    /* border: 1px solid white; */
-    /* padding: 15px 20px; */
     color: white;
   }
+
   .article-list p{
-    padding: 5px 5px;
     margin: 0;
-  
   }
   
   .article-list img{
@@ -1130,14 +1142,11 @@ footer h3{
   }
   
   .info-list{
-    margin-top: 15px;
     width: 100%;
     height: auto;
     text-align: left;
     position: relative;
     text-align: center;
-    left: 0%;
-    top:0%;
     color: white;
     float: none;
     border-top: 1px solid white;

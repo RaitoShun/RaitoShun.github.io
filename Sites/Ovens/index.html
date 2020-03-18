@@ -12,11 +12,11 @@
       <div class="fuego"></div>
       <nav class="topnav">
           <a href="#" id="logo"><img alt="Back home!" src="assets/images/logo2.png"></a>
+          <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
           <nav id="myTopnav" class="topnavLinks">
-              <a href="#news" class="floater">ABOUT<img class="underline-flame" src="assets/images/maybe.gif"></a>
-              <a href="#contact" class="floater">STORE<img class="underline-flame" src="assets/images/maybe.gif"></a>
-              <a href="#about" class="floater">CONTACT<img class="underline-flame" src="assets/images/maybe.gif"></a>
-              <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+              <a href="#about" class="floater">ABOUT<img class="underline-flame" src="assets/images/maybe.gif"></a>
+              <a href="#store" class="floater">STORE<img class="underline-flame" src="assets/images/maybe.gif"></a>
+              <a href="#contact" class="floater">CONTACT<img class="underline-flame" src="assets/images/maybe.gif"></a>
           </nav>
       </nav>
       <main class="landing">
@@ -26,32 +26,36 @@
               <h1>HEAT THINGS UP</h1>
           </div>
           <div class="landing-img-container">
-              <media>
-                  <img src="assets\images\Oven.jpg" class="oven3"/>
-              </media>
-              <media>
-                <img src="assets\images\Oven.jpg"  class="oven2"/>
+            <media class="oven-container">
+              <img src="assets\images\Oven.jpg" class="oven3"/>
+              <img src="assets\images\Oven.jpg" class="oven2"/>
+              <img src="assets\images\Oven.jpg" class="oven-main" alt="We too love to bake!"/>
             </media>
-            <media>
-              <img src="assets\images\Oven.jpg"  class="oven-main" alt="We too love to bake!"/>
-          </media>
           </div>
       </main>
       <section class="prod-gallery">
+        <div id="drag-prompt-container">
+          <h2 class="drag-prompt">DRAG TO SCROLL</h2>
+          <img src="assets/images/arrow.png" class="drag-arrow">
+        </div>
         <div class="shader">
-          <h1>BAKER'S BEST FRIENDS</h1>
-          <div class="embla">
+          <h1>A BAKER'S BEST FRIEND</h1>
+          <div class="embla" onmousedown="endDragPrompt()">
               <div class="embla__container">
                 <div class="embla__slide">
                   <div class="embla__slide__inner new-cook">
                     <div class="text-content">
                       <h3>A WHOLE NEW COOKING EXPERIENCE</h3>
                       <br>
-                      <p>Our ovens and stoves pack a wallop and are guaranteed to leave their impact in your kitchen adventures.</p>
+                      <p>
+                        Our ovens and stoves pack a wallop and are guaranteed to leave their impact 
+                        in your kitchen adventures.
+                      </p>
                     </div>
                     <div class="cooking"></div>
                   </div>
                 </div>
+
                 <div class="embla__slide">
                   <div class="embla__slide__inner new-tech">
                     <div class="text-content">
@@ -62,6 +66,7 @@
                     <div class="techno"></div>
                   </div>
                 </div>
+
                 <div class="embla__slide">
                   <div class="embla__slide__inner">
                     <div class="text-content new-chefs">
@@ -72,6 +77,7 @@
                     <div class="chefs"></div>
                   </div>
                 </div>
+
               </div>
             </div>
         </div>
@@ -82,9 +88,10 @@
         <div class="text-info">
           <h3>HRD WRK</h3>
           <p>
-            Our totally real engineers work day and night in our definitely real startup on making the finest, flamboyant furnaces for 
-            chefs and bakers alike. We pride ourselves in our ruthless efficiency and our ovens' Herculean energy. All made using totally new,
-            innovative tech that definitely exists. If you need to know more, you may <a href="#">contact us</a> or simply check the about section.
+            Our totally real engineers work day and night in our definitely real startup on making the finest, 
+            flamboyant furnaces for chefs and bakers alike. We pride ourselves in our ruthless efficiency and our ovens' 
+            Herculean energy. All made using totally new, innovative tech that definitely exists. 
+            If you need to know more, you may <a href="#">contact us</a> or simply check the <a href="#">about</a> section.
           </p>
         </div>
         <div class="info-img"></div>
@@ -93,8 +100,9 @@
         <div class="text-info">
           <h3>DEBONAIR</h3>
         <p>
-          We make not only the strongest and most invincible ovens, but also the sharpest and most suave appliances in your kitchen.
-          If you need a way to spice up your kitchen without the use of actual spices, we invite you to the gun show on the store page.
+          We make not only the strongest and most invincible ovens, but also the sharpest and most suave appliances 
+          in your kitchen. If you need a way to spice up your kitchen without the use of actual spices, 
+          we invite you to the gun show on the store page.
         </p>
         </div>
         <div class="info-img"></div></div>
@@ -121,7 +129,7 @@
               <div class="embla__slide">
                 <div class="award-text">
                   <h4>Techlead Awards, Platinum - 2018</h4>
-                  <p>"Most innovative starup we've seen this year"</p>
+                  <p>"Most innovative startup we've seen this year"</p>
                 </div>
               </div>
               <div class="embla__slide">
@@ -146,13 +154,13 @@
         <div class="panel span12">
           <ul class="article-list">
             <h3>ARTICLES</h3>
-            <li class="bot-bord"><p><img src="assets\images\article.jpg">I Don't know why</p></li>
-            <li class="bot-bord"><p><img src="assets\images\article.jpg">Big footers</p></li>
-            <li class="bot-bord"><p><img src="assets\images\article.jpg">Are a trend</p></li>
-            <li class="bot-bord"><p><img src="assets\images\article.jpg">They look</p></li>
-            <li class="bot-bord" ><p><img src="assets\images\article.jpg">Really really goofy</p></li>
-            <li class="bot-bord"><p><img src="assets\images\article.jpg">To me</p></li>
-            <li><p><img src="assets\images\article.jpg">But whatever, articles...</p></li>
+            <li class="bot-bord"><p><img src="assets\images\articles\article1.jpg">I Don't know why</p></li>
+            <li class="bot-bord"><p><img src="assets\images\articles\article2.jpg">Big footers</p></li>
+            <li class="bot-bord"><p><img src="assets\images\articles\article3.jpg">Are a trend</p></li>
+            <li class="bot-bord"><p><img src="assets\images\articles\article4.jpg">They look</p></li>
+            <li class="bot-bord" ><p><img src="assets\images\articles\article5.jpg">Really really goofy</p></li>
+            <li class="bot-bord"><p><img src="assets\images\articles\article6.jpg">To me</p></li>
+            <li><p><img src="assets\images\articles\article7.jpg">But whatever, articles...</p></li>
           </ul>
           <div class="info-list">
             <h3>INFORMATION</h3>
@@ -177,7 +185,7 @@
         </div>
         <div class="panel span3 stack6">
           <ul class="foot-nav">
-            <li class="bot-bord"><a href="#">Home</a></li>
+            <li class="bot-bord"><a href="#">Home</a></li c>
             <li class="bot-bord"><a href="#">About</a></li>
             <li class="bot-bord"><a href="#">Products</a></li>
             <li><a href="#">Contact</a></li>
@@ -186,7 +194,6 @@
         <div class="copyright"><p>&copy; Abraham Thiao, All rights reserved.</p></div>
     </footer>
     <script src="/js/bundle.js"></script>
-    <script src="/js/index.js">
-    </script>
+    <script src="/js/index.js"></script>
 </body>
 </html>

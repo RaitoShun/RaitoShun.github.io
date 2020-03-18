@@ -20,6 +20,7 @@ draggingClass: 'is-dragging',
 const embla2 =  EmblaCarousel(emblaNode2,{
 loop: false,
 speed: 5,
+draggable: false
 });
 
 

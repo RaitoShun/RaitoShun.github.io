@@ -1,9 +1,9 @@
 function toggleNav() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnavLinks") {
-      x.className += " responsive";
+    var mobileNav = document.getElementById("myTopnav");
+    if (mobileNav.className === "topnavLinks") {
+      mobileNav.className += " responsive";
     } else {
-      x.className = "topnavLinks";
+      mobileNav.className = "topnavLinks";
     }
   } 
 
@@ -14,15 +14,33 @@ window.onscroll = function() {scrollFunc()};
 var navbar = document.querySelector(".topnav");
 
 // Get the offset position of the navbar
-var sticky = navbar.offsetTop;
+var stickyOffset = navbar.offsetTop;
 
 // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
 function scrollFunc() {
-  if (window.pageYOffset >= sticky) {
+  if (window.pageYOffset >= stickyOffset) {
     navbar.classList.add("sticky");
     document.body.style.paddingTop = navbar.offsetHeight + 'px';
   } else {
     document.body.style.paddingTop = 0;
     navbar.classList.remove("sticky");
   }
-} 
+}
+
+let runBefore = false;
+
+function endDragPrompt(){
+  if(runBefore === false){
+    const dragPromptCont = document.querySelector("#drag-prompt-container");
+    const dragPrompt = document.querySelector(".drag-prompt");
+    const dragPromptArr = document.querySelector(".drag-arrow");
+
+    dragPrompt.style.opacity = 0;
+    dragPromptArr.style.opacity = 0;
+
+    setTimeout(() => {
+      dragPromptCont.remove();
+    }, 2000);
+    runBefore = true;
+  }
+}
