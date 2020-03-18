@@ -40,12 +40,12 @@ body{
 
 @font-face {
   font-family: "Raskhal";
-  src: url(".assets/fonts/Raskhal-r1e9.ttf");
+  src: url("../assets/fonts/Raskhal-r1e9.ttf");
 }
 
 @font-face {
   font-family: "Marker";
-  src: url(".assets/fonts/PermanentMarker.ttf");
+  src: url("../assets/fonts/PermanentMarker.ttf");
 }
 
 
@@ -114,7 +114,7 @@ body{
     overflow: hidden;
     width:100%;
     position: absolute;
-    background: url('.assets/images/awards.jpeg');
+    background: url('../assets/images/awards.jpeg');
     background-size: cover;
     background-position: center;
     padding: 20px 0px;
@@ -211,7 +211,7 @@ body{
 
 .fuego{
   height: 1100px;
-  background-image: url(".assets/images/pizza.jpeg");
+  background-image: url("../assets/images/pizza.jpeg");
   position: absolute;
   width: 100%;
   left: 0;
@@ -378,7 +378,7 @@ body{
 }
 
 .cooking{
-  background: url('.assets/images/cooking.jpeg');
+  background: url('../assets/images/cooking.jpeg');
   height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -396,7 +396,7 @@ body{
 }
 
 .techno{
-  background: url('.assets/images/tech2.jpeg');
+  background: url('../assets/images/tech2.jpeg');
   height: 100%;
   background-size: cover;
   width: 100%;
@@ -406,7 +406,7 @@ body{
 }
 
 .chefs{
-  background: url('.assets/images/chefs.jpeg');
+  background: url('../assets/images/chefs.jpeg');
   height: 100%;
   background-size: cover;
   width: 100%;
@@ -469,7 +469,7 @@ body{
 }
 
 .info-left .info-img{
-  background: url('.assets/images/slides.jpeg');
+  background: url('../assets/images/slides.jpeg');
   width: 60%;
   height: 100%;
   background-size: cover;
@@ -485,7 +485,7 @@ body{
 }
 
 .info-right .info-img{
-  background: url('.assets/images/work.jpeg');
+  background: url('../assets/images/work.jpeg');
   width: 60%;
   height: 100%;
   background-size: cover;
