@@ -38,6 +38,7 @@
     let aspectRatio = window.innerWidth / window.innerHeight;
     let camera = new THREE.PerspectiveCamera(95, aspectRatio * 0.8, 0.1, 1500);
     let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
     // Lights to make the scene visible, one to add glare to Earth
     let spotLight = new THREE.SpotLight(0xffffff, 1, 0, 10, 2);
     let light = new THREE.AmbientLight(0x404040); // soft white light
@@ -79,7 +80,6 @@
     let galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
 
     // Load Galaxy Textures
-    loader.crossOrigin = true;
     loader.load(
         'assets/textures/starfield.png',
         function (texture) {
@@ -114,39 +114,39 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    //Actual Marker object for ISS Tracking
-    var pointer = new THREE.Mesh();
-    pointer.position.set(1.2, 0 ,0); //1.2 is a comfortable distance from Earth
-    var marker = new THREE.Object3D();
-    marker.add(pointer);
+    //Actual issLongLat object for ISS Tracking
+    var issMeshPos = new THREE.Mesh();
+    issMeshPos.position.set(1.2, 0 ,0); //1.2 is a comfortable distance from Earth
+    var issLongLat = new THREE.Object3D();
+    issLongLat.add(issMeshPos);
 
     //ISS 3D model loaded in here
-    modelLoader.load('assets/models/ISS_stationary.glb', function (gltf) {
+    modelLoader.load('assets/models/ISS_stationary.glb', function (issModel) {
         //Make ISS Model Smaller
-            gltf.scene.scale.x = 0.001;
-            gltf.scene.scale.y = 0.001;
-            gltf.scene.scale.z = 0.001;
+            issModel.scene.scale.x = 0.001;
+            issModel.scene.scale.y = 0.001;
+            issModel.scene.scale.z = 0.001;
 
-            pointer.add(gltf.scene);
+            issMeshPos.add(issModel.scene);
         }, undefined, function (error) {
             console.error(error);
         });
 
     //Creating the Bubble around the ISS
-    var glowGeometry = new THREE.SphereGeometry(0.15, 24, 24)
-    var glowMaterial = new THREE.MeshPhongMaterial({
+    var bubbleGeometry = new THREE.SphereGeometry(0.15, 24, 24)
+    var bubbleMaterial = new THREE.MeshPhongMaterial({
         color: '#ffffff',
         transparent: true,
         opacity: 0.1
     });
-    var glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-    pointer.add(glowMesh);
+    var bubbleMesh = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+    issMeshPos.add(bubbleMesh);
 
-    //Wrapper for Earth and ISS Marker
-    var obj = new THREE.Object3D();
-    obj.add(earthMesh);
-    earthMesh.add(marker);
-    scene.add(obj);
+    //Wrapper for Earth and ISS issLongLat
+    var mainWrapper = new THREE.Object3D();
+    mainWrapper.add(earthMesh);
+    earthMesh.add(issLongLat);
+    scene.add(mainWrapper);
 
 
     //Initialise controls
@@ -166,15 +166,19 @@
 
 
 
-    //Setting Radius and marker position in relation to Earth
+    //Setting Radius and issLongLat position in relation to Earth
     var RADIUS = Math.PI / 180;
 
     window.addEventListener("load", function () {
             let introTitle = document.querySelector('h1');
             let introParagraphTip = document.querySelector('p');
-            let loadScreen = document.getElementById("load_screen");
             //Initial Position Fetch(ISS)
-            fetch('//api.open-notify.org/iss-now.json')
+            fetch('//api.open-notify.org/iss-now.json',{
+                    mode: 'cors',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                })
                 .then((response) => {
                     return response.json();
                 })
@@ -182,7 +186,7 @@
                     let issLong, issLat;
                     issLong = response.iss_position.longitude;
                     issLat = response.iss_position.latitude;
-                    marker.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
+                    issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
                     document.body.removeChild(load_screen);
                     introTitle.classList.add('slide_in');
                     setTimeout(() => {
@@ -202,7 +206,7 @@
                     let issLong, issLat;
                     issLong = response.iss_position.longitude;
                     issLat = response.iss_position.latitude;
-                    marker.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
+                    issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
                 })
         }, 10000);
 
