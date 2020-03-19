@@ -1,0 +1,41 @@
+body, html {
+	height: 100%;
+}
+
+.jumbotron{
+	background: url("../Assets/cropland.jpg");
+}
+ 
+.jumbotron h1{
+	position: relative;
+	top: 50%;
+	font-size: 5em;
+}
+
+.logo-size {
+	transform: scale(1.5);
+	padding-top: 50px;
+}
+
+.about-text{
+	padding-top: 60px;
+	padding-bottom: 60px
+}
+
+.entice {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+/*give cards some padding*/
+.card {
+	padding: 1em 1em 1em 1em;
+}
+
+.card:hover{
+	transform: scale(1.05);
+	z-index: 2;
+	box-shadow: 1px 1px 10px 2px grey;
+}
+
+

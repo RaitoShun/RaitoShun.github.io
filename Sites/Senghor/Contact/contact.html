@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link 
+		rel="stylesheet" 
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+		crossorigin="anonymous"
+	>
+	<link rel="stylesheet" type="text/css" href="contact.css">
+	<link rel="stylesheet" type="text/css" href="../gen.css">
+	<link 
+		href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+		crossorigin="anonymous"
+	>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans&display=swap" rel="stylesheet">
+	<title>Senghor-SA: Contact</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  <a href="../Home/index.html">	
+	  	<img src='../Assets/logomain.png'/>
+	  </a>
+	  <button 
+		class="navbar-toggler" 
+		type="button" 
+		data-toggle="collapse" 
+		data-target="#navbarNavAltMarkup" 
+		aria-controls="navbarNavAltMarkup" 
+		aria-expanded="false" 
+		aria-label="Toggle navigation"
+	  >
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+	    <div class="navbar-nav">
+	      <a class="nav-item nav-link hover-highlight" href="../About/about.html">ABOUT</a>
+	      <a class="nav-item nav-link hover-highlight" href="../Activities/activities.html">ACTIVITIES</a>
+	      <a class="nav-item nav-link hover-highlight" href="../Home/index.html">HOME</a>
+	    </div>
+	  </div>
+	</nav>
+	<header class="jumbotron text-center">
+		<h1><span class="rainbow outline show-up">CONTACT US</span></h1>
+	</header>
+	<header class="jumbotron intro text-center">
+		<h1><span class="rainbow">Let's Connect</span></h1>
+		<p>Send us a message right away via our contact tickets.</p>
+	</header>
+	<section class="cards container">
+		<div class="manual text-center col-sm-8 right card">
+			<div class="container">
+				<form  method="post" action="contact.php" name="myemailform">
+					<div class="form-group">
+						<label for="Email">Email address</label>
+						<input 
+							type="email" 
+							class="form-control"
+							name="email" 
+							aria-describedby="emailHelp" 
+							placeholder="Enter email"
+						>
+						<small id="emailHelp" class="form-text text-muted">
+							We'll never share your email with anyone else.
+						</small>
+					</div>
+					<div class="form-group">
+					    <label for="Name">Name</label>
+					    <input type="text" class="form-control" name="name" placeholder="Name">
+					</div>
+					<label for="Message">Your Message</label>
+					<div class="form-group col-sm-16">
+					  	<textarea class="messaging" name="message" placeholder="Message"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+		<div class="dad-contact text-center col-sm-4 left card">
+			<div class="text-center ">
+				<p><u>Working Hours: 8am to 6pm SAST</u></p>
+				<p><i class='fa fa-envelope'></i> dthiao@gmail.com</p>
+				<p><i class='fa fa-envelope'></i> dthiao@senghorbiz.com.pl</p>
+				<p><i class='fa fa-envelope'></i> info@senghorbiz.com.pl</p>
+				<p><i class='fa fa-phone'></i> (+27) 72 901 0520</p>
+				<p><i class='fa fa-phone'></i> (+27) 72 971 7777</p>
+			</div>
+		</div>
+	</section>
+	<footer class='text-center footer'>
+		<ul class="icons">
+			<li>
+				<a rel="noopener noreferrer" target="_blank" href="https://web.facebook.com/diene.thiao">
+					<span class="fa fa-facebook-f"></span>
+				</a>
+			</li>
+
+			<li>
+				<a rel="noopener noreferrer" target="_blank" href="https://pl.linkedin.com/in/diene-thiao-51858b2b">
+					<span class="fa fa-linkedin"></span>
+				</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/channel/UCP_0o0FUIDKCh3bc9IAw5lA">
+					<span class="fa fa-youtube"></span>
+				</a>
+			</li>
+		</ul>
+		<ul class="copyright">
+			<li>&copy; SENGHOR Pty.Ltd, All rights reserved.</li>
+		</ul>
+	</footer>
+	<script type="text/javascript" src='../gen.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script 
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous">
+	</script>
+</body>
+</html> 
