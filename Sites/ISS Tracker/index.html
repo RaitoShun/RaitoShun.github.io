@@ -38,6 +38,7 @@
     let aspectRatio = window.innerWidth / window.innerHeight;
     let camera = new THREE.PerspectiveCamera(95, aspectRatio * 0.8, 0.1, 1500);
     let controls = new THREE.OrbitControls(camera, renderer.domElement);
+    window.location.protocol = 'http:'
 
     // Lights to make the scene visible, one to add glare to Earth
     let spotLight = new THREE.SpotLight(0xffffff, 1, 0, 10, 2);
@@ -173,7 +174,7 @@
 
     function addNewBodyScript() {
         let script = document.createElement('script');
-        script.src = `https://api.open-notify.org/iss-now.json?callback=getISSPOS`;
+        script.src = `http://api.open-notify.org/iss-now.json?callback=getISSPOS`;
         document.body.append(script);
     }
 
