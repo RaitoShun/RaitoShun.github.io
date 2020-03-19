@@ -360,7 +360,7 @@ body{
   width: auto;
   position: absolute;
   top: 31%;
-  z-index: 5;
+  z-index: 3;
   left: 50px;
   -webkit-animation-name: arrow-swoosh;
   -webkit-animation-duration: 2s;
