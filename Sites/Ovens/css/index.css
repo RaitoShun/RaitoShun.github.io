@@ -349,7 +349,7 @@ body{
   position: absolute;
   top: 30%;
   left: 50px;
-  z-index: 5;
+  z-index: 3;
   color: white;
   font-family: "Raskhal",sans-serif;
   transition-duration: 2s;
