@@ -164,55 +164,42 @@
         renderer.render(scene, camera);
     };
 
+    function getISSPOS(data) {
+        let issLong, issLat;
+        issLong = data.iss_position.longitude;
+        issLat = data.iss_position.latitude;
+        issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
+    }
+
+    function addNewBodyScript() {
+        let script = document.createElement('script');
+        script.src = `http://api.open-notify.org/iss-now.json?callback=getISSPOS`;
+        document.body.append(script);
+    }
 
 
     //Setting Radius and issLongLat position in relation to Earth
     var RADIUS = Math.PI / 180;
 
     window.addEventListener("load", function () {
-            let introTitle = document.querySelector('h1');
-            let introParagraphTip = document.querySelector('p');
-            //Initial Position Fetch(ISS)
-            try {
-                fetch('//api.open-notify.org/iss-now.json')
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then(response => {
-                        let issLong, issLat;
-                        issLong = response.iss_position.longitude;
-                        issLat = response.iss_position.latitude;
-                        issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
-                        document.body.removeChild(load_screen);
-                        introTitle.classList.add('slide_in');
-                        setTimeout(() => {
-                            introParagraphTip.classList.add('pulsate');
-                        }, 4000);
+        let introTitle = document.querySelector('h1');
+        let introParagraphTip = document.querySelector('p');
 
-                    })
-                
-            } catch (error) {
-                console.log(error)
-            }
-            
-        })
+        addNewBodyScript();
+        document.body.removeChild(load_screen);
+        introTitle.classList.add('slide_in');
+        setTimeout(() => {
+            introParagraphTip.classList.add('pulsate');
+        }, 4000);
 
-    //Repeat updates for ISS position
-    setInterval(() => {
-           fetch('//api.open-notify.org/iss-now.json', {
-                    mode: 'cors',
-                    headers: {
-                        'Access-Control-Allow-Origin': 'http://api.open-notify.org/iss-now.json'
-                    }
-                })
-                .then(response => {
-                    let issLong, issLat;
-                    issLong = response.iss_position.longitude;
-                    issLat = response.iss_position.latitude;
-                    issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
-                })
+        //Update the position of the ISS
+         setInterval(() => {
+            let oldScript = document.body.children[document.body.children.length -1];
+            document.body.removeChild(oldScript);
+            addNewBodyScript();
         }, 10000);
 
+    })
     render();
 </script>   
 </body>
