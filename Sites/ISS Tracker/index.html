@@ -176,7 +176,7 @@
             fetch('http://api.open-notify.org/iss-now.json',{
                     mode: 'cors',
                     headers: {
-                        'Access-Control-Allow-Origin': '*'
+                        'Access-Control-Allow-Origin': 'http://api.open-notify.org/iss-now.json'
                     }
                 })
                 .then((response) => {
@@ -198,9 +198,11 @@
 
     //Repeat updates for ISS position
     setInterval(() => {
-            fetch('http://api.open-notify.org/iss-now.json')
-                .then((response) => {
-                    return response.json();
+           fetch('http://api.open-notify.org/iss-now.json', {
+                    mode: 'cors',
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://api.open-notify.org/iss-now.json'
+                    }
                 })
                 .then(response => {
                     let issLong, issLat;
