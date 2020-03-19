@@ -173,27 +173,28 @@
             let introTitle = document.querySelector('h1');
             let introParagraphTip = document.querySelector('p');
             //Initial Position Fetch(ISS)
-            fetch('//api.open-notify.org/iss-now.json',{
-                    mode: 'cors',
-                    headers: {
-                        'Access-Control-Allow-Origin': 'http://api.open-notify.org/iss-now.json'
-                    }
-                })
-                .then((response) => {
-                    return response.json();
-                })
-                .then(response => {
-                    let issLong, issLat;
-                    issLong = response.iss_position.longitude;
-                    issLat = response.iss_position.latitude;
-                    issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
-                    document.body.removeChild(load_screen);
-                    introTitle.classList.add('slide_in');
-                    setTimeout(() => {
-                        introParagraphTip.classList.add('pulsate');
-                    }, 4000);
+            try {
+                fetch('//api.open-notify.org/iss-now.json')
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then(response => {
+                        let issLong, issLat;
+                        issLong = response.iss_position.longitude;
+                        issLat = response.iss_position.latitude;
+                        issLongLat.quaternion.setFromEuler(new THREE.Euler(0, issLong * RADIUS, issLat * RADIUS, "YZX"));
+                        document.body.removeChild(load_screen);
+                        introTitle.classList.add('slide_in');
+                        setTimeout(() => {
+                            introParagraphTip.classList.add('pulsate');
+                        }, 4000);
 
-                })
+                    })
+                
+            } catch (error) {
+                console.log(error)
+            }
+            
         })
 
     //Repeat updates for ISS position
