@@ -72,7 +72,7 @@ section.color-dad-info{
   top: 90%;
 }
 
-@media (min-width: 1px) {
+@media only screen and (min-width: 1px) {
   .color-dad-info{
       background-size: cover;
       margin-bottom: 20px;
@@ -94,8 +94,7 @@ section.color-dad-info{
   .fa-chevron-down{top: 40%;}
 }
 
-
-@media (min-width:576px) {
+@media only screen and (min-width:576px) {
   .color-dad-info{
       min-height: 120%;
       overflow: hidden;
@@ -109,7 +108,7 @@ section.color-dad-info{
     }
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
     .color-dad-info{
       min-height: 100%; 
     }
@@ -128,7 +127,7 @@ section.color-dad-info{
     }
 }
 
-@media (min-width: 992px) { 
+@media only screen and (min-width: 992px) { 
     .dad-info .right{
       display: block;
     }
