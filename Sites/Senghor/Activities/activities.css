@@ -27,11 +27,6 @@ h1#products{
 	font-size: 5em;
 }
 
-
-h2{
-	font-size: 4em;
-}
-
 .policy{
 	margin-top:2em;
 	margin-bottom:2em;
@@ -155,19 +150,35 @@ table.table{
 
 @media only screen and (min-width: 992px) {
 	.mobile-tasks{display: none;}
-	.tasks{display: none;}
+	.tasks{display: block;}
 	.table{font-size: 0.8em;}
-  
+
+	section.container,div.container{
+		max-width: 1140px;
+	}
+
+	.panel-collapse{
+		font-size: 1em;
+	}
+
+	.mobile-tasks a span.rainbow.outline-small{
+		font-size: 1em;
+	}
+	.card-block p{
+		font-size: 1em;
+	}
+
+	table.table{
+		font-size: 1em;
+	}
+	.private-reqs a span.rainbow.outline-small{
+		font-size: 1em;
+	}
+	a span.rainbow.outline-small{
+		font-size: 1em;
+	}
+
 }
 
-@media only screen and (min-width: 768px) {
-	.table{
-    	font-size: 1em;
-    }
 
-    .tasks{
-      	display: none;
-    }
-
-}
 

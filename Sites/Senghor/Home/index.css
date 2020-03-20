@@ -49,7 +49,6 @@ section.color-dad-info{
   transform: scale(1.1);
 }
 
-
 .dad-info .right{
   margin-top: 50px;
   transition: .8s all ease-in;
@@ -110,27 +109,22 @@ i.fa-chevron-down{
   .fa-chevron-down{top: 40%;}
 }
 
-@media only screen and (max-width:768px) {
-  .color-dad-info{
-      min-height: 120%;
-      overflow: hidden;
-    }
-    .dad-info .left{
-      display: block;
-    }
-
-    .dad-info .right{
-      max-width: 100%;
-    }
-}
-
 @media only screen and (min-width: 992px) {
+   .text-elements{
+      top: 20%;
+    }
+    button.curvy{
+      top: 30%;
+    }
+
+    a.dad-info-link{
+      font-size: 3em;
+    }
     .color-dad-info{
       min-height: 100%; 
     }
 
     .footer .fa{
-      /* font-size: 3em; */
       margin-left: 20px;
       margin-right: 40px;
       margin-top: 15px;
@@ -141,17 +135,20 @@ i.fa-chevron-down{
     .fa-chevron-down{
       top: 55%;
     }
-}
+    h4.display-4{
+    font-size: 1em;
+    color:white;
+  }
 
-@media only screen and (min-width: 992px) { 
-    .dad-info .right{
-      display: block;
-    }
+  .jumbotron h1 span.rainbow{
+    font-size: 2em;
+  }
 
-    .dad-info .left{
-      display: block;
-    }
 
+  .dad-info{
+    padding-top: 0px;
+    margin-bottom: 10px;
+  }  
     .dad-info .left img{
       height: 100%;
     }
@@ -159,11 +156,14 @@ i.fa-chevron-down{
     .color-dad-info{
       background: white;
       overflow: hidden;
+      min-height: 120%;
     }
 
     .dad-info .left{
       max-height: 100%;
       height: 80%;
+      display: block;
+      float: left;
     }
 
     .dad-info .right p{
@@ -175,8 +175,11 @@ i.fa-chevron-down{
     .dad-info .right{
       max-width: 50%;
       float: right;
+      margin: 0;
+      min-width: 0%;
     }
-  }
+
+}
 
 
 
