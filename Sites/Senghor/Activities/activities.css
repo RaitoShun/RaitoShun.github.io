@@ -74,8 +74,18 @@ img.spaced-out{
 	padding-top: 5em;
 }
 
+section.container,div.container{
+	max-width: 100%;
+}
 /*give cards padding*/
-.card {
+a span.rainbow.outline-small{
+	font-size: 2em;
+}
+
+#accordion .card{
+	text-align: left;
+}
+.card-header.card {
 	padding: 1em 1em 1em 1em;
 }
 
@@ -87,6 +97,7 @@ img.spaced-out{
 
 .panel-collapse{
 	transition: .8s;
+	font-size: 2em;
 }
 
 .card-header{
@@ -97,6 +108,21 @@ img.spaced-out{
 	text-decoration: none;
 	display: inline-block;
 	width: 100%;
+}
+
+.mobile-tasks a span.rainbow.outline-small{
+	font-size: 2.5em;
+}
+.card-block p{
+	font-size: 1em;
+}
+
+table.table{
+	font-size: 2em;
+}
+
+.private-reqs a span.rainbow.outline-small{
+	font-size: 2em;
 }
 
 
@@ -125,24 +151,22 @@ img.spaced-out{
         color: black;
 }
 
-@media (min-width: 1px) {
-	.mobile-tasks{display: block;}
+.mobile-tasks{display: block;}
+
+@media only screen and (min-width: 992px) {
+	.mobile-tasks{display: none;}
 	.tasks{display: none;}
 	.table{font-size: 0.8em;}
   
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
 	.table{
     	font-size: 1em;
     }
 
-    .mobile-tasks{
-      	display: none;
-    }
-
     .tasks{
-      	display: initial;
+      	display: none;
     }
 
 }
