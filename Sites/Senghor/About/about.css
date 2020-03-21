@@ -15,7 +15,6 @@ body, html {
 .logo-size {
 	transform: scale(1.5);
 	padding-top: 50px;
-	height: 250px;
 }
 
 .about-text{
@@ -39,27 +38,4 @@ body, html {
 	box-shadow: 1px 1px 10px 2px grey;
 }
 
-article.container{
-	max-width: 100%;
-}
-
-button.btn.curvy{
-	margin-top: 150px;
-	margin-bottom: 50px;
-}
-
-@media only screen and (min-width: 992px) { 
-	article.container{
-		max-width: inherit;
-	}
-
-	button.btn.curvy{
-		margin-top: 50px;
-		margin-bottom: 50px;
-	}
-
-	.logo-size {
-		height: 100%;
-	}
-}
 

@@ -11,26 +11,20 @@ main.jumbotron.mainpage.text-center{
   position: relative;
   top: 20%;
 }
-button.curvy{
-  top: 30%;
-}
 
-h4.display-4{
-  font-size: 2.5em;
+i.fa-chevron-down{
   color:white;
 }
 
-.jumbotron h1 span.rainbow{
-  font-size: 3em;
-}
 
 section.color-dad-info{
-    background-color: white;
     height: auto;
+    background-color: white;
 }
 
 .dad-info{
-  padding-top: 100px;
+  padding-top: 20px;
+  font-size: 0.9em;
   margin-bottom: 10px;
 }
 
@@ -39,7 +33,7 @@ section.color-dad-info{
   margin-bottom: 10px;
   opacity: 1;
   transition: .8s all ease-in;
-  display: none;
+  float: left;
 }
 .dad-info .left img{
   transition: 1s all;
@@ -49,11 +43,11 @@ section.color-dad-info{
   transform: scale(1.1);
 }
 
+
 .dad-info .right{
   margin-top: 50px;
   transition: .8s all ease-in;
-  min-width: 100%;
-  font-size: 1em;
+  float: right;
 }
 
 .shrink {
@@ -77,17 +71,13 @@ section.color-dad-info{
   margin-top: 2em; 
 }
 
-a.dad-info-link{
+#dad-information{
+  font-size: 3em;
   position: relative;
   top: 90%;
-  font-size: 8em;
 }
 
-i.fa-chevron-down{
-  color:white;
-}
-
-@media only screen and (min-width: 576px) {
+@media (min-width: 1px) {
   .color-dad-info{
       background-size: cover;
       margin-bottom: 20px;
@@ -109,22 +99,28 @@ i.fa-chevron-down{
   .fa-chevron-down{top: 40%;}
 }
 
-@media only screen and (min-width: 992px) {
-   .text-elements{
-      top: 20%;
+
+@media (min-width:576px) {
+  .color-dad-info{
+      min-height: 120%;
+      overflow: hidden;
     }
-    button.curvy{
-      top: 30%;
+    .dad-info .left{
+      display: block;
     }
 
-    a.dad-info-link{
-      font-size: 3em;
+    .dad-info .right{
+      max-width: 100%;
     }
+}
+
+@media (min-width: 768px) {
     .color-dad-info{
       min-height: 100%; 
     }
 
     .footer .fa{
+      font-size: 3em;
       margin-left: 20px;
       margin-right: 40px;
       margin-top: 15px;
@@ -135,20 +131,17 @@ i.fa-chevron-down{
     .fa-chevron-down{
       top: 55%;
     }
-    h4.display-4{
-    font-size: 1em;
-    color:white;
-  }
+}
 
-  .jumbotron h1 span.rainbow{
-    font-size: 2em;
-  }
+@media (min-width: 992px) { 
+    .dad-info .right{
+      display: block;
+    }
 
+    .dad-info .left{
+      display: block;
+    }
 
-  .dad-info{
-    padding-top: 0px;
-    margin-bottom: 10px;
-  }  
     .dad-info .left img{
       height: 100%;
     }
@@ -156,14 +149,11 @@ i.fa-chevron-down{
     .color-dad-info{
       background: white;
       overflow: hidden;
-      min-height: 120%;
     }
 
     .dad-info .left{
       max-height: 100%;
       height: 80%;
-      display: block;
-      float: left;
     }
 
     .dad-info .right p{
@@ -175,11 +165,8 @@ i.fa-chevron-down{
     .dad-info .right{
       max-width: 50%;
       float: right;
-      margin: 0;
-      min-width: 0%;
     }
-
-}
+  }
 
 
 
