@@ -29,6 +29,9 @@ function scrollFunc() {
 
 let runBefore = false;
 
+const carousel = document.querySelector(".is-draggable");
+carousel.addEventListener("touchstart", endDragPrompt, false);
+
 function endDragPrompt(){
   if(runBefore === false){
     const dragPromptCont = document.querySelector("#drag-prompt-container");
@@ -37,7 +40,7 @@ function endDragPrompt(){
 
     dragPrompt.style.opacity = 0;
     dragPromptArr.style.opacity = 0;
-
+    
     setTimeout(() => {
       dragPromptCont.remove();
     }, 2000);
