@@ -115,11 +115,10 @@ a:hover{
   width: 100%;
   margin: 0;
   z-index: 4;
-  transition: all;
 }
 
 .navbar img{
-	transition: all .4s ease-in;
+	transition: transform 400ms ease-in;
 }
 
 .navbar img:hover{
@@ -195,7 +194,9 @@ h1{
   bottom: 0;
   background: black;
   height: 2px;
-  transition: 0.2s ease-in;
+  transition-duration: 300ms;
+  transition-property: left,right;
+  transition-timing-function: ease-in;
 }
 .hover-highlight:hover:before, .hover-highlight:focus:before, .hover-highlight:active:before {
   left: 0;

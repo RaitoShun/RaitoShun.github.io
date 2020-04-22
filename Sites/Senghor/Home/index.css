@@ -32,11 +32,11 @@ section.color-dad-info{
   margin-top: 50px;
   margin-bottom: 10px;
   opacity: 1;
-  transition: .8s all ease-in;
+  transition: 800ms transform ease-in;
   float: left;
 }
 .dad-info .left img{
-  transition: 1s all;
+  transition: 100ms transform;
 }
 
 .dad-info .left img:hover{
@@ -46,7 +46,7 @@ section.color-dad-info{
 
 .dad-info .right{
   margin-top: 50px;
-  transition: .8s all ease-in;
+  transition: 800ms transform ease-in;
   float: right;
 }
 
@@ -54,7 +54,7 @@ section.color-dad-info{
   width: 150px;
   margin-right: 3rem;
   margin-left: 3em;
-  transition: all .4s ease-in;
+  transition: transform 400ms ease-in;
 }
 
 .shrink:hover{

@@ -28,7 +28,7 @@ header.jumbotron.intro{
 .dad-contact{
 	padding-top: 3.5em;
 	padding-bottom: 3.52em;
-	transition: .2s all ease-in;
+	transition: 200ms transform ease-in;
 	animation-name: slide;
 }
 
