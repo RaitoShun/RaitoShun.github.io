@@ -156,7 +156,7 @@ body{
   border-bottom: solid 1px rgba(255, 255, 255, 0.5);
   z-index: 5;
   padding: 20px 0px;
-  transition: .5s all ease-in;
+  transition: 250ms background ease-in;
   font-family: 'Raskhal', cursive;
   
 }
@@ -345,7 +345,7 @@ body{
   text-align: center;
   border-radius: 0.9em;
   transform: translateY(100%);
-  transition: .5s all ease-in;
+  transition: 500ms transform ease-in;
   z-index: 2;
   font-family: "Marker", sans-serif;
 }
@@ -376,8 +376,6 @@ body{
   animation-iteration-count: infinite;
   transition-duration: 2s ;
 }
-
-#drag-prompt-container{transition: 2s ease;}
 
 .embla__slide__inner:hover .text-content{
   transform: translateY(70%);
@@ -484,7 +482,7 @@ body{
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  transition: .3s all cubic-bezier(1, 0, 0, 1);
+  transition: 300ms transform cubic-bezier(1, 0, 0, 1);
   opacity: 1;
   z-index: 1;
 }
@@ -498,7 +496,7 @@ body{
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  transition: .3s all cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  transition: 300ms transform cubic-bezier(0.6, -0.28, 0.735, 0.045);
   opacity: 1;
 }
 .awards{

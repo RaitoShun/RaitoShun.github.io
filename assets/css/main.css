@@ -3147,10 +3147,10 @@ input, select, textarea {
 			-webkit-transform: translate(0,0);
 			-ms-transform: translate(0,0);
 			transform: translate(0,0);
-			-moz-transition: -moz-transform 1s ease, opacity 1s ease;
-			-webkit-transition: -webkit-transform 1s ease, opacity 1s ease;
-			-ms-transition: -ms-transform 1s ease, opacity 1s ease;
-			transition: transform 1s ease, opacity 1s ease;
+			-moz-transition: -moz-transform 500ms ease, opacity 500ms ease;
+			-webkit-transition: -webkit-transform 500ms ease, opacity 500ms ease;
+			-ms-transition: -ms-transform 500ms ease, opacity 500ms ease;
+			transition: transform 500ms ease, opacity 500ms ease;
 			background: rgba(23, 24, 32, 0.95);
 			border-style: solid;
 			opacity: 1;

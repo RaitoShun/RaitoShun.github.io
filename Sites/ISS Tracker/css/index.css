@@ -29,6 +29,7 @@
 .pulsate{
     animation: pulsate 5s ease-out;
     animation-iteration-count: infinite; 
+    transition-property: opacity;
     opacity: 0;
 }
 
