@@ -262,7 +262,7 @@ input, select, textarea {
 		left: 15%;
 		top: 5%;
 	}
-	.totop{
+	#totop{
 		position: fixed;
 		left: 90%;
 		z-index: 20;
