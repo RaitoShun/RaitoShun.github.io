@@ -262,6 +262,17 @@ input, select, textarea {
 		left: 15%;
 		top: 5%;
 	}
+	.totop{
+		position: fixed;
+		left: 90%;
+		z-index: 20;
+		width: 70px;
+		background-color: rgba(23, 24, 32, 0.95);
+		height: 70px;
+		border: 1px solid;
+		transform: rotateZ(180deg);
+		bottom: 40px;
+	}
 
 	#three .hider{
 		left:0;
