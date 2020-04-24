@@ -10,7 +10,7 @@
 
 .copy-notif{
 	opacity: 0;
-	transition: .3s all ease-in;
+	transition: .3s opacity,translate ease-in;
 	transform: translateY(-5%);
 }
 
@@ -133,7 +133,7 @@ input, select, textarea {
 		}
 
 	i{
-		transition: .8s all;
+		transition: .8s transform;
 		position: relative;
 	}
 	i:hover{
@@ -295,7 +295,7 @@ input, select, textarea {
 		 z-index: 8;
 		 width: 100%;
 		 opacity: 1;
-		 transition: 0.2s all ease-in;
+		 transition: 0.2s opacity,transform ease-in;
 		 color: red;
 		 border-bottom: 5px solid red;
 		 text-align: center;
@@ -306,7 +306,7 @@ input, select, textarea {
 
 	.projects-active{
 		opacity: 0;
-		transition: 0.2s all ease-in;
+		transition: 0.2s opacity,transform ease-in;
 	}
 	.content p{
 		font-size: 0.9em;
@@ -3201,7 +3201,7 @@ input, select, textarea {
 		}
 
 		.spotlight.left .content, .spotlight.right .content {
-			height: 101%;
+			height: 100%;
 			padding: 3em 3em;
 			top: 0;
 			width: 28em;
@@ -3231,10 +3231,10 @@ input, select, textarea {
 
 		.spotlight .unhider{
 			opacity: 0;
-			position: relative; 
-			top: -50%;
+			position: absolute; 
+			top: 50%;
 			z-index: 10;
-			left: -40px;
+			left: -30px;
 		}
 
 		.spotlight.inactive .content {
@@ -3263,7 +3263,7 @@ input, select, textarea {
 			opacity: 0;
 		}
 
-		.spotlight.right .unhider{
+		div.unhider.button.unhider-right{
 			float: right;
 			left: initial;
 			right: -40px;
