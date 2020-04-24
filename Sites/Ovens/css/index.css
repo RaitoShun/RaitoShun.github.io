@@ -257,6 +257,7 @@ body{
   position: relative;
   z-index: 3;
   animation-delay: 1s;
+  letter-spacing: 10px;
   -webkit-animation-delay: 1s;
   animation-duration: 3s;
 }
