@@ -290,7 +290,7 @@ input, select, textarea {
 
 	.projects{
 		 background: black;
-		 height: 8%; 
+		 height: 60px; 
 		 position: fixed; 
 		 z-index: 8;
 		 width: 100%;
