@@ -20,9 +20,7 @@ var stickyOffset = navbar.offsetTop;
 function scrollFunc() {
   if (window.pageYOffset > stickyOffset) {
     navbar.classList.add("sticky");
-    document.body.style.paddingTop = navbar.offsetHeight + 'px';
   } else {
-    document.body.style.paddingTop = 0;
     navbar.classList.remove("sticky");
   }
 }
