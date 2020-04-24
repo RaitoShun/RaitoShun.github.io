@@ -101,7 +101,7 @@ header.jumbotron.intro{
 	  max-width: 100%;
 	}
 	header.jumbotron.intro{
-	height: 15%;
+	height: 18%;
 	}
 }
 
@@ -111,13 +111,11 @@ header.jumbotron.intro{
 	}
 	
 	div.manual.card.right{
-	  max-width: 66.666667%;
 	  float: right;
   	}
 
   .dad-contact{
 	  margin-top: 50px;
-	  max-width: 33.333333%;
 	  float: left;
 	  margin-top: 0;
 	}
