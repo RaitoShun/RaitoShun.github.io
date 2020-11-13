@@ -279,7 +279,8 @@ a {
 }
 
 .swiper-pagination-bullet {
-    background: #00C2FF !important
+    background: #00C2FF !important;
+    margin-bottom: 5vh;
 }
 
 .sample-p {
