@@ -1,0 +1,130 @@
+.menu{
+    background-color: rgba(2, 2, 2, 0.98);
+    width: 20%;
+    color: white;
+    height: 100%;
+    position: absolute;
+}
+
+.intro{
+    font-family: 'Questrial';
+    position: relative;
+    top: 35%;
+    text-align: center;
+}
+.intro h1{
+  font-family:'Text Me One';
+  font-size: 48px;
+}
+.intro p{
+    opacity: 0;
+    font-size: 14px;
+}
+
+.slide_in{
+    animation: slide_in 4s ease-out;
+}
+
+
+.pulsate{
+    animation: pulsate 5s ease-out;
+    animation-iteration-count: infinite; 
+    opacity: 0;
+}
+
+#load_screen{
+    background: black;
+    position: fixed;
+    z-index: 10;
+    top: 0px;
+    color: white;
+    height: 100%;
+    transition: 0.2s opacity;
+    width: 100%;
+}
+
+#load_screen h2{
+    font-family:'Questrial';
+    text-align: center;
+    position: relative;
+    top: 60vh;
+}
+
+#load_screen.invisible{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader {
+  border-top: 2px solid white;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keyframes */
+@keyframes slide_in {
+    0% { 
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% { 
+        opacity: 100%;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulsate {
+    0% { 
+        opacity: 0;
+    }
+    50% { 
+        opacity: 1;
+    }
+    100% { 
+        opacity: 0;
+    }
+}
+
+/* Media Queries */
+@media only screen and (max-width: 875px){
+    .intro h1.slide_in{
+        font-size: 24px !important;
+    }
+    .intro p.pulsate{
+        opacity: 0;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 515px){
+    .menu{
+        width: 100%;
+        height: 20%;
+    }
+    canvas{
+      width: 100% !important;
+    }
+    .intro h1.slide_in{
+        font-size: 24px;
+        padding: 0;
+        margin: 0;
+    }
+    .intro p.pulsate{
+        font-size: 12px;
+        animation: none;
+    }
+
+    .loader{
+        left: 45%;
+    }
+}
