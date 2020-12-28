@@ -27,9 +27,37 @@ BrowserFS.configure(
       throw e;
     }
     var fs = require("fs");
+    const defaultConfig = {
+      Alts: "0",
+      variables: {},
+      rowData: [],
+      columnDefs: [
+        {
+          headerName: "Description",
+          field: "description",
+          rowDrag: true,
+          editable: true,
+          resizable: true,
+          suppressMovable: true,
+        },
+        { headerName: "Name", field: "name", editable: true, resizable: true },
+        {
+          headerName: "Definition",
+          field: "definition",
+          editable: true,
+          resizable: true,
+        },
+        { headerName: "Alt", field: "alt", editable: true, resizable: true },
+        { headerName: "Unit", field: "unit", editable: true, resizable: true },
+      ],
+    };
 
     fs.readFile("/test.json", function (err, contents) {
-      initializeApp(JSON.parse(contents.toString()));
+      if (contents.length == 0) {
+        initializeApp(defaultConfig);
+      } else {
+        initializeApp(JSON.parse(contents.toString()));
+      }
     });
   }
 );
