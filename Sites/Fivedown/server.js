@@ -53,7 +53,7 @@ BrowserFS.configure(
     };
 
     fs.readFile("/test.json", function (err, contents) {
-      if (contents) {
+      if (!contents) {
         initializeApp(defaultConfig);
       } else {
         initializeApp(JSON.parse(contents.toString()));
