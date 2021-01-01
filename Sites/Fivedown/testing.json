@@ -1,7 +1,7 @@
 
     {   "Alts": "0",
         "variables":
-        {"h": 4
+        {
             },
             "rowData":
             [{"name": "h","description": "","alt":"4","unit": "m","definition":""}],

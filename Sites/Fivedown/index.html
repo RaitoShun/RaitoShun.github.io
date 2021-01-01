@@ -16,11 +16,20 @@
     <title>FiveDown</title>
   </head>
   <body>
+    <div id="creator-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="creator-close">&times;</span>
+        <p id="creator-text">Project Name:</p>
+        <input type="text" id="proj-name" />
+        <button id="creator-submit">Create</button>
+      </div>
+    </div>
+    <section id="home"></section>
     <div id="error-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p id="error-text">Some text in the Modal..</p>
+        <p id="error-text"></p>
       </div>
     </div>
     <div id="json-modal" class="modal">
@@ -40,14 +49,13 @@
       class="ag-theme-alpine"
     ></div>
     <button id="json-set" class="json-config action">
-      Paste a custom configuration
+      Paste a custom project JSON
     </button>
     <button id="json-get" class="json-config action">
-      Get current configuration
+      Get current project JSON
     </button>
 
     <button class="action" id="new-column">Add alt column</button>
-    <button class="action" id="remove-column">Remove alt Column</button>
     <button class="action" id="new-row">Add a blank row</button>
     <script src="parser.min.js"></script>
     <script type="text/javascript" src="browserfs.min.js"></script>
@@ -57,6 +65,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="functions.js"></script>
+    <script src="home.js"></script>
     <script src="server.js"></script>
     <script src="objects.js"></script>
   </body>

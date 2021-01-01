@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Quicksand;
+  src: url("/fonts/Quicksand-Light.ttf");
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -85,6 +90,7 @@
 button:hover {
   background-color: #252525;
   color: white;
+  cursor: pointer;
 }
 
 textarea {
@@ -96,5 +102,64 @@ textarea {
 }
 .json-config {
   float: right;
-  display: block;
+}
+
+.closable .cross {
+  content: "x";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  opacity: 0;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.closable:hover .cross {
+  opacity: 1;
+}
+.grid-green {
+  background-color: lightgreen;
+}
+
+.grid-blue {
+  background-color: lightskyblue;
+}
+
+#home {
+  text-align: center;
+  font-family: Quicksand;
+  padding-top: 100px;
+}
+
+#home h1 {
+  font-size: 3em;
+  margin-bottom: 50px;
+}
+
+#home button {
+  margin: 50px;
+  font-family: Quicksand;
+  background-color: #000;
+  color: white;
+  padding: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+#home ul li {
+  list-style-type: none;
+  margin: 20px;
+  border: 1px solid black;
+}
+
+#home ul li a {
+  font-size: 24px;
+  text-decoration: none;
+  color: black;
+}
+
+#home ul li a:active {
+  font-size: 24px;
+  color: black;
 }

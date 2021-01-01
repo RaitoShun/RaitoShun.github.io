@@ -1,5 +1,5 @@
 var errorModal = document.getElementById("error-modal");
-var span = document.getElementsByClassName("close")[0];
+var span = document.getElementsByClassName("close")[1];
 var errorModalText = document.querySelector("#error-text");
 var jsonModal = document.querySelector("#json-modal");
 var jsonText = document.querySelector("#json-text");
@@ -8,15 +8,17 @@ var getJsonButt = document.querySelector("#json-get");
 var setJsonButt = document.querySelector("#json-set");
 var submitJson = document.querySelector("#submit-json");
 var buttons = document.querySelectorAll(".action");
+var home = document.querySelector("#home");
 // When the user clicks on <span> (x), close the errorModal
 span.onclick = function () {
   errorModal.style.display = "none";
 };
 
-function initializeApp(data) {
-  const spreadsheet = document.querySelector("#spreadsheet");
+function initializeApp(data, project) {
+  home.style.display = "none";
+  window.document.title =
+    project.replace(/^\w/, (c) => c.toUpperCase()) + " | FiveDown";
   const newColButt = document.querySelector("#new-column");
-  const removeColButt = document.querySelector("#remove-column");
   const newRowButt = document.querySelector("#new-row");
   const fs = require("fs");
   buttons.forEach((b) => {
@@ -31,14 +33,15 @@ function initializeApp(data) {
 
   //!BUGS
   //TODO add validation for definitions, ensure you don't have loop from hell and self-assigning
-  //TODO name change to null while it has dependents (includes on delete)
   //TODO Pasting in columns can delete all of them.
+  //TODO Prevent any keyboard events in edit
 
   var Alts = JSON.parse(data.Alts);
+  var removedAlts = data.removedAlts;
   let Editing = false;
 
   function showError(message) {
-    errorModalText.textContent = message;
+    errorModalText.innerText = message;
     errorModal.style.display = "block";
   }
 
@@ -51,38 +54,99 @@ function initializeApp(data) {
     rowSelection: "multiple",
     onCellValueChanged: function (event) {
       if (!Editing) {
-        console.log(event.data.definition.split(/\W/));
+        Editing = true;
         let row = event.node.rowIndex,
           column = event.column.colId,
           oldValue = event.oldValue,
           newValue = event.newValue;
+        if (column == "unit" || column == "description") {
+          autoSaveProgress();
+          return;
+        }
 
         if (column === "name") {
-          if (Object.keys(parser.variables).includes(newValue)) {
-            showError("That name is already taken");
-            Editing = true;
+          if (!oldValue && !newValue) {
+            return;
+          }
+
+          if (!newValue && oldValue) {
+            Grid.gridOptions.api.forEachNode((row) => {
+              if (
+                row.data.definition &&
+                row.data.definition.split(/\W/).includes(oldValue)
+              ) {
+                showError(
+                  "Remove dependencies of this variable first before deleting this row"
+                );
+                return;
+              }
+            });
+            delete parser.variables[oldValue];
+            autoSaveProgress();
+            return;
+          }
+
+          if (newValue.includes(" ")) {
+            showError("No spaces in variable names are allowed");
             event.node.setDataValue("name", `${oldValue}`);
             return;
           }
+
+          if (Object.keys(parser.variables).includes(newValue)) {
+            showError("That name is already taken");
+            event.node.setDataValue("name", `${oldValue}`);
+            return;
+          }
+
           if (
             parser.parse(newValue).result ||
             parser.parse(newValue).error == "#VALUE!"
           ) {
             showError("No mathematical concepts as names");
-            Editing = true;
             event.node.setDataValue("name", `${oldValue}`);
             return;
           }
+
           let oldData = parser.getVariable(oldValue);
-          parser.setVariable(newValue, oldData);
-          Editing = true;
+
+          if (oldData) {
+            parser.setVariable(newValue, oldData);
+            delete parser.variables.oldValue;
+          } else {
+            if (event.data.alt || newValue) {
+              if (Alts > 0) {
+                let valueArr = [event.data.alt];
+                for (let i = 1; i <= Alts; i++) {
+                  valueArr.push(event.data["alt" + i]);
+                }
+                parser.setVariable(newValue, valueArr);
+              } else {
+                parser.setVariable(newValue, event.data.alt);
+                autoSaveProgress();
+                return;
+              }
+            }
+          }
           if (oldValue) changeNames(oldValue, newValue);
           autoSaveProgress();
+          return;
         }
 
         if (column.includes("alt")) {
           let altIndex = event.column.colId.slice(3);
-          if (isNaN(newValue)) {
+          if (event.data.definition) {
+            showError("Cannot have a definition and raw input.");
+            event.node.setDataValue(
+              "alt" + (altIndex.length > 0 ? altIndex : ""),
+              `${oldValue}`
+            );
+            Grid.gridOptions.api.stopEditing(true);
+            Editing = true;
+            return;
+          }
+          Editing = false;
+
+          if (isNaN(newValue) && newValue) {
             showError(
               "Alt is for raw input values only, use definition for formulas"
             );
@@ -106,32 +170,32 @@ function initializeApp(data) {
             recalculateDependents(variableName);
           }
           autoSaveProgress();
+          return;
         }
         if (column === "definition") {
           if (!oldValue && !newValue) {
-            Editing = true;
             return;
           }
 
           if (!newValue) {
-            Editing = true;
+            return;
+          }
+
+          if (!event.data.name) {
+            showError("Set a name before fiddling with the defintion");
+            event.node.setDataValue("definition", ``);
             return;
           }
 
           const variableName = event.data.name;
-          const newFormula = newValue;
-          let testFormula = newFormula.split(/\W/);
-
+          let testFormula = newValue.split(/\W/);
           if (testFormula.includes(variableName)) {
             showError("No self-referencing variables allowed");
-            event.node.setDataValue("definition", `${oldValue}`);
-            Editing = true;
-            return;
-          }
-          if (parser.parse(newFormula).error) {
-            showError("That formula isn't valid");
-            event.node.setDataValue("definition", `${oldValue}`);
-            Editing = true;
+            event.node.setDataValue(
+              "definition",
+              `${oldValue ? oldValue : ""}`
+            );
+
             return;
           }
 
@@ -141,7 +205,7 @@ function initializeApp(data) {
             let currentVars = Object.keys(parser.variables);
 
             currentDefinitions.forEach((def, i) => {
-              let tempFormula = newFormula;
+              let tempFormula = newValue;
               currentVars.forEach((v) => {
                 if (tempFormula.includes(v)) {
                   tempFormula = tempFormula.replace(
@@ -156,50 +220,75 @@ function initializeApp(data) {
                 "alt" + (i == 0 ? "" : i),
                 `${parser.parse(tempFormula).result}`
               );
-              if (variableName) {
-                recalculateDependents(variableName, i);
-              }
-            });
-            if (variableName) {
               parser.setVariable(variableName, updatedDefinitions);
-            }
+              recalculateDependents(variableName, i);
+              return;
+            });
           } else {
-            let newCalc = parser.parse(newFormula).result;
-            if (event.data.name) {
-              parser.setVariable(variableName, newCalc);
-              recalculateDependents(variableName);
+            if (parser.parse(newValue).error) {
+              showError("That formula isn't valid");
+              event.node.setDataValue("definition", `${oldValue}`);
+              return;
             }
-            event.node.setDataValue("alt", `${newCalc}`);
+            let newCalc = parser.parse(newValue).result;
+            parser.setVariable(variableName, newCalc);
+            recalculateDependents(variableName);
+            event.node.setDataValue("alt", `${parser.parse(newValue).result}`);
+            autoSaveProgress();
+            return;
           }
-          autoSaveProgress();
         }
       }
     },
-    onCellEditingStarted: function (event) {
-      if (event.data.definition && event.column.colId.includes("alt")) {
-        showError("Cannot have a definition and raw input.");
-        Grid.gridOptions.api.stopEditing(true);
-        return;
-      }
+    onCellEditingStarted: (event) => {
       Editing = false;
     },
     suppressKeyboardEvent: (keypress) => {
       if (!keypress.editing) {
+        let dependancy = false;
         let isDeleteKey = keypress.event.keyCode === 46;
         if (isDeleteKey) {
-          const selectedRows = keypress.api.getSelectedRows();
-          Grid.gridOptions.rowData.pop();
-          autoSaveProgress();
-          Grid.gridOptions.api.applyTransaction({ remove: selectedRows });
+          let varName = keypress.data.name;
+          if (varName) {
+            Grid.gridOptions.api.forEachNode((row) => {
+              if (
+                row.data.definition &&
+                row.data.definition.split(/\W/).includes(varName)
+              ) {
+                showError(
+                  "Remove dependencies of this variable first before deleting this row"
+                );
+                dependancy = true;
+              }
+            });
+            delete parser.variables[varName];
+            autoSaveProgress();
+          }
+          if (!dependancy) {
+            const selectedRows = keypress.api.getSelectedRows();
+            Grid.gridOptions.rowData.pop();
+            autoSaveProgress();
+            Grid.gridOptions.api.applyTransaction({ remove: selectedRows });
+          }
           return true;
         }
       }
-      return false;
-    },
-    onPasteStart: (event) => {
-      console.log(event);
     },
   });
+
+  function initCloseButts() {
+    document.querySelectorAll(".closable").forEach((butt) => {
+      butt.insertAdjacentHTML("beforeend", '<span class="cross">x</span>');
+    });
+
+    let closeButtons = document.querySelectorAll(".cross");
+    closeButtons.forEach((butt) => {
+      butt.addEventListener("click", function (e) {
+        removeMore(e.target.parentElement.getAttribute("col-Id"));
+      });
+    });
+  }
+  initCloseButts();
 
   newColButt.onclick = function () {
     loadMore();
@@ -207,18 +296,19 @@ function initializeApp(data) {
   newRowButt.onclick = function () {
     addRows();
   };
-  removeColButt.onclick = function () {
-    removeMore();
-  };
-
   function autoSaveProgress() {
+    let newRows = [];
+    Grid.gridOptions.api.forEachNode((row) => {
+      newRows.push(row.data);
+    });
     fs.writeFile(
-      "/test.json",
+      `/${project}.json`,
       JSON.stringify({
-        rowData: Grid.gridOptions.rowData,
+        rowData: newRows,
         columnDefs: Grid.gridOptions.columnDefs,
         variables: parser.variables,
         Alts: Alts,
+        removedAlts: removedAlts,
       }),
       function (err) {}
     );
@@ -232,6 +322,8 @@ function initializeApp(data) {
       variables: parser.variables,
       rowData: Grid.gridOptions.rowData,
       columnDefs: Grid.gridOptions.columnDefs,
+      Alts: Alts,
+      removedAlts,
     });
   };
 
@@ -257,8 +349,19 @@ function initializeApp(data) {
       showError("The configuration needs a columnDefs array of objects.");
       return;
     }
+    if (!newConfig.removedAlts) {
+      showError(
+        "The configuration needs a max alt amount (equal to number of alt columns"
+      );
+      return;
+    }
+    if (isNaN(newConfig.Alts)) {
+      showError("The configuration needs an Alt value.");
+      return;
+    }
     parser.variables = newConfig.variables;
     Alts = JSON.parse(newConfig.Alts);
+    removedAlts = newConfig.removedAlts;
     Grid.gridOptions.api.setColumnDefs(newConfig.columnDefs);
     Grid.gridOptions.columnDefs = newConfig.columnDefs;
     Grid.gridOptions.api.setRowData([]);
@@ -269,65 +372,85 @@ function initializeApp(data) {
 
   function loadMore() {
     let currentColumns = Grid.gridOptions.columnDefs;
+    let altNumber;
+    if (Alts == 0) {
+      removedAlts.sort((a, b) => a > b);
+    }
     Alts++;
-    currentColumns.splice(currentColumns.length - 1, 0, {
-      headerName: "Alt " + Alts,
-      field: "alt" + Alts,
+    altNumber = removedAlts.pop();
+    console.log(altNumber, "Current Alts: " + Alts);
+    currentColumns.push({
+      headerName: "Alt " + (altNumber ? altNumber : Alts),
+      field: "alt" + (altNumber ? altNumber : Alts),
       editable: true,
+      headerClass: "closable",
+      cellClassRules: {
+        "grid-green": "!data.definition",
+        "grid-blue": "data.definition",
+      },
+      resizable: true,
     });
+
     if (Alts > 0) {
       Grid.gridOptions.api.forEachNode((innerRow) => {
-        innerRow.data["alt" + Alts] = "";
-        let newValues = parser.getVariable(innerRow.data.name);
-        if (Alts == 1) {
-          parser.setVariable(innerRow.data.name, [newValues, ""]);
-        } else {
-          parser.setVariable(innerRow.data.name, [...newValues, ""]);
+        innerRow.data["alt" + (altNumber ? altNumber : Alts)] = "";
+        if (innerRow.data.name) {
+          let newValues = parser.getVariable(innerRow.data.name);
+          if (Alts == 1) {
+            parser.setVariable(innerRow.data.name, [newValues, ""]);
+          } else {
+            parser.setVariable(innerRow.data.name, [...newValues, ""]);
+          }
         }
       });
     }
     Grid.gridOptions.api.setColumnDefs(currentColumns);
     autoSaveProgress();
+    initCloseButts();
   }
 
-  function removeMore() {
+  function removeMore(id) {
     if (Alts > 0) {
-      let currentColumns = Grid.gridOptions.columnDefs;
       Alts--;
-      currentColumns.splice(currentColumns.length - 2, 1);
+      let currentColumns = Grid.gridOptions.columnDefs;
+      currentColumns.forEach((n, i) => {
+        if (n.field == id) {
+          currentColumns.splice(i, 1);
+          removedAlts.push(id.slice(3, id.length));
+        }
+      });
       Grid.gridOptions.api.forEachNode((innerRow) => {
         let varName = innerRow.data.name;
         let variable = parser.getVariable(varName);
-        if (Alts == 0) {
-          parser.setVariable(varName, variable[0]);
-        } else {
-          parser.setVariable(varName, variable.slice(0, variable.length - 1));
+        if (varName) {
+          if (Alts == 0) {
+            parser.setVariable(varName, variable[0]);
+          } else {
+            parser.setVariable(varName, variable.slice(0, variable.length - 1));
+          }
         }
         delete innerRow.data["alt" + (Alts == 0 ? 1 : Alts)];
       });
       Grid.gridOptions.api.setColumnDefs(currentColumns);
       autoSaveProgress();
+      initCloseButts();
     }
   }
 
   function addRows() {
-    Grid.gridOptions.rowData.push({
+    let newRow = {
       definition: "",
-      description: "",
+      name: "",
       description: "",
       alt: "0",
       unit: "",
-    });
+    };
+    for (let i = 1; i <= Alts; i++) {
+      newRow["alt" + i] = "";
+    }
+    Grid.gridOptions.rowData.push(newRow);
     Grid.gridOptions.api.applyTransaction({
-      add: [
-        {
-          definition: "",
-          description: "",
-          description: "",
-          alt: "0",
-          unit: "",
-        },
-      ],
+      add: [newRow],
     });
     autoSaveProgress();
   }
@@ -335,10 +458,9 @@ function initializeApp(data) {
   const recalculateDependents = (name, altIndex) => {
     Grid.gridOptions.api.forEachNode((innerRow) => {
       if (innerRow.data.name == name) {
-        return;
       }
       let definition = innerRow.data.definition;
-      if (definition.includes(name)) {
+      if (definition && definition.includes(name)) {
         if (Alts > 0) {
           let updatedFormula = definition;
           let currentVars = Object.keys(parser.variables);
@@ -350,16 +472,21 @@ function initializeApp(data) {
               );
             }
           });
-          let parsedFormula = parser.parse(updatedFormula);
+
+          let parsedFormula = parser.parse(updatedFormula).result;
           let newValue = parser.getVariable(innerRow.data.name);
+
           if (Alts === 1) {
-            newValue[1] = "" + parsedFormula.result;
+            newValue[1] = "" + parsedFormula;
             parser.setVariable(innerRow.data.name, newValue);
           } else {
-            newValue[altIndex] = "" + parsedFormula.result;
+            newValue[altIndex] = "" + parsedFormula;
             parser.setVariable(innerRow.data.name, newValue);
           }
-          innerRow.setDataValue("alt" + altIndex, `${parsedFormula.result}`);
+          innerRow.setDataValue(
+            "alt" + (altIndex ? altIndex : ""),
+            `${parsedFormula}`
+          );
           recalculateDependents(innerRow.data.name, altIndex);
         } else {
           let newValue = parser.parse(definition).result;
