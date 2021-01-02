@@ -73,7 +73,9 @@ function initializeApp(data, project) {
                   delete allVariables[v][oldValue];
                 }
                 if (!oldValue && newValue) {
-                  allVariables[v][newValue] = "0";
+                  allVariables[v][newValue] = event.data[v].length
+                    ? event.data[v]
+                    : "0";
                 }
               }
               parser.variables = allVariables;
@@ -83,7 +85,9 @@ function initializeApp(data, project) {
                 currentVars[newValue] = currentVars[oldValue];
               }
               if (!oldValue && newValue) {
-                currentVars[newValue] = "0";
+                currentVars[newValue] = event.data.alt.length
+                  ? event.data.alt
+                  : "0";
               }
               delete currentVars[oldValue];
               parser.variables.alt = currentVars;
@@ -108,7 +112,15 @@ function initializeApp(data, project) {
                 return;
               }
             });
-            assignNewAlts();
+            let allVariables = parser.variables;
+            if (Alts > 0) {
+              for (v in allVariables) {
+                delete allVariables[v][oldValue];
+              }
+              parser.variables = allVariables;
+            } else {
+              delete parser.variables.alt[oldValue];
+            }
             autoSaveProgress();
             return;
           }
@@ -140,7 +152,13 @@ function initializeApp(data, project) {
         }
 
         if (column.includes("alt")) {
+          if (!event.data.name.length) {
+            showError("Set a name before fiddling with the alt");
+            event.node.setDataValue("alt", `0`);
+            return;
+          }
           let altIndex = event.column.colId.slice(3);
+          console.log(event.data.name);
           if (event.data.definition) {
             showError("Cannot have a definition and raw input.");
             event.node.setDataValue(
@@ -249,8 +267,8 @@ function initializeApp(data, project) {
           }
 
           if (Alts > 0) {
-            let altIndex = 0;
-            let allVariables = parser.variables;
+            var altIndex = 0;
+            var allVariables = parser.variables;
 
             for (v in allVariables) {
               let altCheck = "alt" + (altIndex ? altIndex : "");
@@ -274,7 +292,7 @@ function initializeApp(data, project) {
             parser.variables = currentVars.alt;
             let checker = errorCheck();
             if (!checker) {
-              parser.variables = allVariables;
+              parser.variables = currentVars;
               return;
             }
             let newCalc = parser.parse(newValue).result;
