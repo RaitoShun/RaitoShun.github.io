@@ -146,7 +146,7 @@ function initializeApp(data, project) {
             event.node.setDataValue("name", `${oldValue}`);
             return;
           }
-
+          Editing = true;
           assignNewAlts();
           // if (oldValue) changeNames(oldValue, newValue); // Still to do!
         }
@@ -283,7 +283,7 @@ function initializeApp(data, project) {
               allVariables[v][variableName] = formulaResult;
               event.node.setDataValue(altCheck, `${formulaResult}`);
               parser.variables = allVariables;
-              recalculateDependents(variableName, altIndex);
+              recalculateDependents(variableName);
               altIndex++;
             }
           } else {
