@@ -25,16 +25,15 @@ function navigationShow(firstRender, contents, defaultConfig) {
       createModal.style.display = "none";
       window.location.replace(`#${proj}`);
       window.location.reload();
-      initializeApp(defaultConfig, proj);
     }
   };
   if (!firstRender) {
     let projects = Object.keys(JSON.parse(contents.toString()).projects);
     var homeList = document.querySelector("#home-list");
+    homeList.innerHTML = "<h2>Here are your projects:</h2>";
 
     projects.forEach((p) => {
       homeList.innerHTML += ` 
-      <h2>Here are your projects:</h2>
         <li>
           <a
             href="#test"

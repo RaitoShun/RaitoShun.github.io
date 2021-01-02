@@ -9,7 +9,6 @@ var setJsonButt = document.querySelector("#json-set");
 var submitJson = document.querySelector("#submit-json");
 var buttons = document.querySelectorAll(".action");
 var home = document.querySelector("#home");
-// When the user clicks on <span> (x), close the errorModal
 span.onclick = function () {
   errorModal.style.display = "none";
 };
@@ -32,7 +31,7 @@ function initializeApp(data, project) {
   //TODO Copy and paste rows
 
   //!BUGS
-  //TODO add validation for definitions, ensure you don't have loop from hell and self-assigning
+  //TODO loop from hell and self-assigning
   //TODO Pasting in columns can delete all of them.
   //TODO Prevent any keyboard events in edit
 
@@ -65,11 +64,39 @@ function initializeApp(data, project) {
         }
 
         if (column === "name") {
+          function assignNewAlts() {
+            if (Alts > 0) {
+              let allVariables = parser.variables;
+              for (v in allVariables) {
+                if (oldValue && newValue) {
+                  allVariables[v][newValue] = allVariables[v][oldValue];
+                  delete allVariables[v][oldValue];
+                }
+                if (!oldValue && newValue) {
+                  allVariables[v][newValue] = "0";
+                }
+              }
+              parser.variables = allVariables;
+            } else {
+              let currentVars = parser.variables.alt;
+              if (oldValue && newValue) {
+                currentVars[newValue] = currentVars[oldValue];
+              }
+              if (!oldValue && newValue) {
+                currentVars[newValue] = "0";
+              }
+              delete currentVars[oldValue];
+              parser.variables.alt = currentVars;
+            }
+            autoSaveProgress();
+            return;
+          }
           if (!oldValue && !newValue) {
             return;
           }
 
           if (!newValue && oldValue) {
+            //Validating if we have a blank name and an old name there
             Grid.gridOptions.api.forEachNode((row) => {
               if (
                 row.data.definition &&
@@ -81,7 +108,7 @@ function initializeApp(data, project) {
                 return;
               }
             });
-            delete parser.variables[oldValue];
+            assignNewAlts();
             autoSaveProgress();
             return;
           }
@@ -92,7 +119,8 @@ function initializeApp(data, project) {
             return;
           }
 
-          if (Object.keys(parser.variables).includes(newValue)) {
+          if (Object.keys(parser.variables.alt).includes(newValue)) {
+            //fix this validation
             showError("That name is already taken");
             event.node.setDataValue("name", `${oldValue}`);
             return;
@@ -107,29 +135,8 @@ function initializeApp(data, project) {
             return;
           }
 
-          let oldData = parser.getVariable(oldValue);
-
-          if (oldData) {
-            parser.setVariable(newValue, oldData);
-            delete parser.variables.oldValue;
-          } else {
-            if (event.data.alt || newValue) {
-              if (Alts > 0) {
-                let valueArr = [event.data.alt];
-                for (let i = 1; i <= Alts; i++) {
-                  valueArr.push(event.data["alt" + i]);
-                }
-                parser.setVariable(newValue, valueArr);
-              } else {
-                parser.setVariable(newValue, event.data.alt);
-                autoSaveProgress();
-                return;
-              }
-            }
-          }
-          if (oldValue) changeNames(oldValue, newValue);
-          autoSaveProgress();
-          return;
+          assignNewAlts();
+          // if (oldValue) changeNames(oldValue, newValue); // Still to do!
         }
 
         if (column.includes("alt")) {
@@ -144,7 +151,6 @@ function initializeApp(data, project) {
             Editing = true;
             return;
           }
-          Editing = false;
 
           if (isNaN(newValue) && newValue) {
             showError(
@@ -159,13 +165,13 @@ function initializeApp(data, project) {
           }
           const variableName = event.data.name;
           if (Alts > 0) {
-            let currentAltValues = parser.getVariable(variableName);
-            currentAltValues[altIndex ? altIndex : 0] = newValue;
-            parser.setVariable(variableName, currentAltValues);
+            parser.variables[event.column.colId][variableName] = newValue;
             Editing = true;
-            recalculateDependents(variableName, altIndex);
+            recalculateDependents(variableName);
           } else {
-            parser.setVariable(variableName, newValue);
+            let currentValues = parser.variables.alt;
+            currentValues[variableName] = newValue;
+            parser.variables.alt = currentValues;
             Editing = true;
             recalculateDependents(variableName);
           }
@@ -199,44 +205,85 @@ function initializeApp(data, project) {
             return;
           }
 
-          if (Alts > 0) {
-            let updatedDefinitions = [];
-            let currentDefinitions = parser.getVariable(variableName);
-            let currentVars = Object.keys(parser.variables);
-
-            currentDefinitions.forEach((def, i) => {
-              let tempFormula = newValue;
-              currentVars.forEach((v) => {
-                if (tempFormula.includes(v)) {
-                  tempFormula = tempFormula.replace(
-                    v,
-                    parser.getVariable(v)[i]
-                  );
-                }
-              });
-
-              updatedDefinitions.push(parser.parse(tempFormula).result);
-              event.node.setDataValue(
-                "alt" + (i == 0 ? "" : i),
-                `${parser.parse(tempFormula).result}`
-              );
-              parser.setVariable(variableName, updatedDefinitions);
-              recalculateDependents(variableName, i);
-              return;
-            });
-          } else {
+          function errorCheck() {
             if (parser.parse(newValue).error) {
-              showError("That formula isn't valid");
               event.node.setDataValue("definition", `${oldValue}`);
+              switch (parser.parse(newValue).error) {
+                case " #ERROR!":
+                  showError(
+                    "A general error has occured. Check whether what you entered makes sense and uses correct variables."
+                  );
+                  return false;
+                case "#DIV/0!":
+                  showError(
+                    "You are dividing by zero. Something is going to explode if you do that."
+                  );
+                  return false;
+                case "#NAME?":
+                  showError(
+                    "A variable here doesn't exist. Retype the formula carefully."
+                  );
+                  return false;
+                case "#N/A":
+                  showError(
+                    "A value isn't available in that formula. Doube-check the values you're putting into each function."
+                  );
+                  return false;
+                case "#NUM!":
+                  showError(
+                    "A number here is not a valid number. Are you using imaginary numbers?"
+                  );
+                  return false;
+                case "#VALUE!":
+                  showError(
+                    "A value in this formula is not of the correct type. Ensure all of them are numbers or Maths concepts."
+                  );
+                  return false;
+
+                default:
+                  showError("An unknown error occured.");
+                  return false;
+              }
+            }
+            return true;
+          }
+
+          if (Alts > 0) {
+            let altIndex = 0;
+            let allVariables = parser.variables;
+
+            for (v in allVariables) {
+              let altCheck = "alt" + (altIndex ? altIndex : "");
+              parser.variables = allVariables[altCheck];
+              let checker = errorCheck();
+              if (!checker) {
+                parser.variables = allVariables;
+                return;
+              }
+              let formulaResult = parser.parse(newValue).result;
+              Editing = true;
+              allVariables[v][variableName] = formulaResult;
+              event.node.setDataValue(altCheck, `${formulaResult}`);
+              parser.variables = allVariables;
+              recalculateDependents(variableName, altIndex);
+              altIndex++;
+            }
+          } else {
+            Editing = true;
+            let currentVars = parser.variables;
+            parser.variables = currentVars.alt;
+            let checker = errorCheck();
+            if (!checker) {
+              parser.variables = allVariables;
               return;
             }
             let newCalc = parser.parse(newValue).result;
-            parser.setVariable(variableName, newCalc);
+            currentVars.alt[variableName] = newCalc;
+            parser.variables = currentVars;
             recalculateDependents(variableName);
-            event.node.setDataValue("alt", `${parser.parse(newValue).result}`);
-            autoSaveProgress();
-            return;
+            event.node.setDataValue("alt", `${newCalc}`);
           }
+          autoSaveProgress();
         }
       }
     },
@@ -261,15 +308,22 @@ function initializeApp(data, project) {
                 dependancy = true;
               }
             });
-            delete parser.variables[varName];
-            autoSaveProgress();
           }
           if (!dependancy) {
+            let allVariables = parser.variables;
+            if (Alts > 0) {
+              for (v in allVariables) {
+                delete allVariables[v][varName];
+              }
+              parser.variables = allVariables;
+            } else {
+              delete parser.variables.alt[varName];
+            }
             const selectedRows = keypress.api.getSelectedRows();
             Grid.gridOptions.rowData.pop();
-            autoSaveProgress();
             Grid.gridOptions.api.applyTransaction({ remove: selectedRows });
           }
+          autoSaveProgress();
           return true;
         }
       }
@@ -378,7 +432,6 @@ function initializeApp(data, project) {
     }
     Alts++;
     altNumber = removedAlts.pop();
-    console.log(altNumber, "Current Alts: " + Alts);
     currentColumns.push({
       headerName: "Alt " + (altNumber ? altNumber : Alts),
       field: "alt" + (altNumber ? altNumber : Alts),
@@ -392,21 +445,19 @@ function initializeApp(data, project) {
     });
 
     if (Alts > 0) {
+      let altCheck = "alt" + (altNumber ? altNumber : Alts);
+      let newAltGroup = parser.variables.alt;
+      for (v in newAltGroup) {
+        newAltGroup[v] = "0";
+      }
+      parser.variables[altCheck] = Object.assign({}, newAltGroup);
       Grid.gridOptions.api.forEachNode((innerRow) => {
-        innerRow.data["alt" + (altNumber ? altNumber : Alts)] = "";
-        if (innerRow.data.name) {
-          let newValues = parser.getVariable(innerRow.data.name);
-          if (Alts == 1) {
-            parser.setVariable(innerRow.data.name, [newValues, ""]);
-          } else {
-            parser.setVariable(innerRow.data.name, [...newValues, ""]);
-          }
-        }
+        innerRow.data[altCheck] = "0";
       });
+      Grid.gridOptions.api.setColumnDefs(currentColumns);
+      autoSaveProgress();
+      initCloseButts();
     }
-    Grid.gridOptions.api.setColumnDefs(currentColumns);
-    autoSaveProgress();
-    initCloseButts();
   }
 
   function removeMore(id) {
@@ -419,17 +470,10 @@ function initializeApp(data, project) {
           removedAlts.push(id.slice(3, id.length));
         }
       });
-      Grid.gridOptions.api.forEachNode((innerRow) => {
-        let varName = innerRow.data.name;
-        let variable = parser.getVariable(varName);
-        if (varName) {
-          if (Alts == 0) {
-            parser.setVariable(varName, variable[0]);
-          } else {
-            parser.setVariable(varName, variable.slice(0, variable.length - 1));
-          }
-        }
-        delete innerRow.data["alt" + (Alts == 0 ? 1 : Alts)];
+
+      delete parser.variables[id];
+      Grid.gridOptions.api.forEachNode((n) => {
+        delete n.data[id];
       });
       Grid.gridOptions.api.setColumnDefs(currentColumns);
       autoSaveProgress();
@@ -445,8 +489,10 @@ function initializeApp(data, project) {
       alt: "0",
       unit: "",
     };
-    for (let i = 1; i <= Alts; i++) {
-      newRow["alt" + i] = "";
+
+    let currentAlts = parser.variables;
+    for (v in currentAlts) {
+      newRow[v] = "0";
     }
     Grid.gridOptions.rowData.push(newRow);
     Grid.gridOptions.api.applyTransaction({
@@ -455,44 +501,31 @@ function initializeApp(data, project) {
     autoSaveProgress();
   }
 
-  const recalculateDependents = (name, altIndex) => {
+  const recalculateDependents = (name) => {
     Grid.gridOptions.api.forEachNode((innerRow) => {
-      if (innerRow.data.name == name) {
-      }
+      if (innerRow.data.name == name || !innerRow.data.definition) return;
+      let varName = innerRow.data.name;
       let definition = innerRow.data.definition;
-      if (definition && definition.includes(name)) {
+      let variables = definition.split(/\W/);
+      if (variables.includes(name)) {
         if (Alts > 0) {
-          let updatedFormula = definition;
-          let currentVars = Object.keys(parser.variables);
-          currentVars.forEach((v) => {
-            if (updatedFormula.includes(v)) {
-              updatedFormula = updatedFormula.replace(
-                v,
-                parser.getVariable(v)[altIndex ? altIndex : 0]
-              );
-            }
-          });
-
-          let parsedFormula = parser.parse(updatedFormula).result;
-          let newValue = parser.getVariable(innerRow.data.name);
-
-          if (Alts === 1) {
-            newValue[1] = "" + parsedFormula;
-            parser.setVariable(innerRow.data.name, newValue);
-          } else {
-            newValue[altIndex] = "" + parsedFormula;
-            parser.setVariable(innerRow.data.name, newValue);
+          let allVars = parser.variables;
+          for (v in allVars) {
+            parser.variables = allVars[v];
+            let formulaResult = parser.parse(definition).result;
+            allVars[v][varName] = formulaResult;
+            innerRow.setDataValue(v, `${formulaResult}`);
+            parser.variables = allVars;
+            recalculateDependents(varName);
           }
-          innerRow.setDataValue(
-            "alt" + (altIndex ? altIndex : ""),
-            `${parsedFormula}`
-          );
-          recalculateDependents(innerRow.data.name, altIndex);
         } else {
+          let allVars = parser.variables;
+          parser.variables = allVars.alt;
           let newValue = parser.parse(definition).result;
-          parser.setVariable(innerRow.data.name, newValue);
+          parser.variables[innerRow.data.name] = newValue;
+          parser.variables = allVars;
           innerRow.setDataValue("alt", `${newValue}`);
-          recalculateDependents(innerRow.data.name);
+          recalculateDependents(varName);
         }
       }
     });
