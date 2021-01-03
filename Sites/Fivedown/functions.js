@@ -148,7 +148,7 @@ function initializeApp(data, project) {
           }
           Editing = true;
           assignNewAlts();
-          // if (oldValue) changeNames(oldValue, newValue); // Still to do!
+          if (oldValue) changeNames(oldValue, newValue); // Still to do!
         }
 
         if (column.includes("alt")) {
@@ -169,8 +169,11 @@ function initializeApp(data, project) {
             Editing = true;
             return;
           }
-
-          if (isNaN(newValue) && newValue) {
+          if (
+            (!newValue.match(/".*"/) ||
+              newValue.match(/".*"/)[0] > newValue.length) &&
+            isNaN(newValue)
+          ) {
             showError(
               "Alt is for raw input values only, use definition for formulas"
             );
@@ -184,6 +187,7 @@ function initializeApp(data, project) {
           const variableName = event.data.name;
           if (Alts > 0) {
             parser.variables[event.column.colId][variableName] = newValue;
+            console.log(parser.variables[event.column.colId]);
             Editing = true;
             recalculateDependents(variableName);
           } else {
