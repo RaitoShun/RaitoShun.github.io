@@ -9,6 +9,18 @@ var setJsonButt = document.querySelector("#json-set");
 var submitJson = document.querySelector("#submit-json");
 var buttons = document.querySelectorAll(".action");
 var home = document.querySelector("#home");
+window.addEventListener("keydown", function (e) {
+  if (
+    e.key == "Escape" ||
+    e.key == "Tab" ||
+    e.key == "Backspace" ||
+    e.key == "Space"
+  ) {
+    if (errorModal.style.display != "none") {
+      errorModal.style.display = "none";
+    }
+  }
+});
 span.onclick = function () {
   errorModal.style.display = "none";
 };
@@ -29,6 +41,7 @@ function initializeApp(data, project) {
 
   //?Features
   //TODO Copy and paste rows
+  //TODO SIG FIGS FOR NUMBERS
 
   //!BUGS
   //TODO loop from hell and self-assigning
@@ -158,20 +171,11 @@ function initializeApp(data, project) {
             return;
           }
           let altIndex = event.column.colId.slice(3);
-          console.log(event.data.name);
-          if (event.data.definition) {
-            showError("Cannot have a definition and raw input.");
-            event.node.setDataValue(
-              "alt" + (altIndex.length > 0 ? altIndex : ""),
-              `${oldValue}`
-            );
-            Grid.gridOptions.api.stopEditing(true);
-            Editing = true;
-            return;
-          }
+          let notExists = !newValue.match(/".*"/) && !newValue.match(/'.*'/);
+
           if (
-            (!newValue.match(/".*"/) ||
-              newValue.match(/".*"/)[0] > newValue.length) &&
+            ((notExists && newValue.match(/".*"/) > newValue.length) ||
+              (notExists && newValue.match(/'.*'/) > newValue.length)) &&
             isNaN(newValue)
           ) {
             showError(
@@ -187,12 +191,13 @@ function initializeApp(data, project) {
           const variableName = event.data.name;
           if (Alts > 0) {
             parser.variables[event.column.colId][variableName] = newValue;
-            console.log(parser.variables[event.column.colId]);
             Editing = true;
             recalculateDependents(variableName);
           } else {
             let currentValues = parser.variables.alt;
-            currentValues[variableName] = newValue;
+            currentValues[variableName] = isNaN(newValue)
+              ? newValue
+              : parseInt(newValue).toPrecision(4);
             parser.variables.alt = currentValues;
             Editing = true;
             recalculateDependents(variableName);
@@ -284,8 +289,17 @@ function initializeApp(data, project) {
               }
               let formulaResult = parser.parse(newValue).result;
               Editing = true;
-              allVariables[v][variableName] = formulaResult;
-              event.node.setDataValue(altCheck, `${formulaResult}`);
+              allVariables[v][variableName] = isNaN(formulaResult)
+                ? formulaResult
+                : parseInt(formulaResult).toPrecision(4);
+              event.node.setDataValue(
+                altCheck,
+                `${
+                  isNaN(formulaResult)
+                    ? formulaResult
+                    : parseInt(formulaResult).toPrecision(4)
+                }`
+              );
               parser.variables = allVariables;
               recalculateDependents(variableName);
               altIndex++;
@@ -300,17 +314,33 @@ function initializeApp(data, project) {
               return;
             }
             let newCalc = parser.parse(newValue).result;
-            currentVars.alt[variableName] = newCalc;
+            currentVars.alt[variableName] = isNaN(newCalc)
+              ? newCalc
+              : parseInt(newCalc).toPrecision(4);
             parser.variables = currentVars;
             recalculateDependents(variableName);
-            event.node.setDataValue("alt", `${newCalc}`);
+            event.node.setDataValue(
+              "alt",
+              `${isNaN(newCalc) ? newCalc : parseInt(newCalc).toPrecision(4)}`
+            );
           }
           autoSaveProgress();
         }
       }
     },
     onCellEditingStarted: (event) => {
+      if (event.data.definition && event.column.colId.includes("alt")) {
+        Grid.gridOptions.api.stopEditing(true);
+        Grid.gridOptions.api.setFocusedCell(
+          event.rowIndex,
+          event.column.colId,
+          null
+        );
+      }
       Editing = false;
+    },
+    onCellFocused: (event) => {
+      console.log(Grid.gridOptions.api.getFocusedCell());
     },
     suppressKeyboardEvent: (keypress) => {
       if (!keypress.editing) {
@@ -535,8 +565,17 @@ function initializeApp(data, project) {
           for (v in allVars) {
             parser.variables = allVars[v];
             let formulaResult = parser.parse(definition).result;
-            allVars[v][varName] = formulaResult;
-            innerRow.setDataValue(v, `${formulaResult}`);
+            allVars[v][varName] = isNaN(formulaResult)
+              ? formulaResult
+              : parseInt(formulaResult).toPrecision(4);
+            innerRow.setDataValue(
+              v,
+              `${
+                isNaN(formulaResult)
+                  ? formulaResult
+                  : parseInt(formulaResult).toPrecision(4)
+              }`
+            );
             parser.variables = allVars;
             recalculateDependents(varName);
           }
@@ -544,9 +583,14 @@ function initializeApp(data, project) {
           let allVars = parser.variables;
           parser.variables = allVars.alt;
           let newValue = parser.parse(definition).result;
-          parser.variables[innerRow.data.name] = newValue;
+          parser.variables[innerRow.data.name] = isNaN(newValue)
+            ? newValue
+            : parseInt(newValue).toPrecision(4);
           parser.variables = allVars;
-          innerRow.setDataValue("alt", `${newValue}`);
+          innerRow.setDataValue(
+            "alt",
+            `${isNaN(newValue) ? newValue : parseInt(newValue).toPrecision(4)}`
+          );
           recalculateDependents(varName);
         }
       }
