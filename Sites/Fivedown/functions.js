@@ -19,6 +19,9 @@ window.addEventListener("keydown", function (e) {
     if (errorModal.style.display != "none") {
       errorModal.style.display = "none";
     }
+    if (jsonModal.style.display != "none") {
+      jsonModal.style.display = "none";
+    }
   }
 });
 span.onclick = function () {
@@ -41,12 +44,10 @@ function initializeApp(data, project) {
 
   //?Features
   //TODO Copy and paste rows
-  //TODO SIG FIGS FOR NUMBERS
 
   //!BUGS
   //TODO loop from hell and self-assigning
   //TODO Pasting in columns can delete all of them.
-  //TODO Prevent any keyboard events in edit
 
   var Alts = JSON.parse(data.Alts);
   var removedAlts = data.removedAlts;
@@ -138,6 +139,12 @@ function initializeApp(data, project) {
             return;
           }
 
+          if (newValue.match(/\W/g)) {
+            showError("No special characters in name column.");
+            event.node.setDataValue("name", `${oldValue}`);
+            return;
+          }
+
           if (newValue.includes(" ")) {
             showError("No spaces in variable names are allowed");
             event.node.setDataValue("name", `${oldValue}`);
@@ -165,7 +172,7 @@ function initializeApp(data, project) {
         }
 
         if (column.includes("alt")) {
-          if (!event.data.name.length) {
+          if (!event.data.name && !event.data.name.length) {
             showError("Set a name before fiddling with the alt");
             event.node.setDataValue("alt", `0`);
             return;
@@ -197,7 +204,7 @@ function initializeApp(data, project) {
             let currentValues = parser.variables.alt;
             currentValues[variableName] = isNaN(newValue)
               ? newValue
-              : parseInt(newValue).toPrecision(4);
+              : parseFloat(newValue).toPrecision(4);
             parser.variables.alt = currentValues;
             Editing = true;
             recalculateDependents(variableName);
@@ -291,13 +298,13 @@ function initializeApp(data, project) {
               Editing = true;
               allVariables[v][variableName] = isNaN(formulaResult)
                 ? formulaResult
-                : parseInt(formulaResult).toPrecision(4);
+                : parseFloat(formulaResult).toPrecision(4);
               event.node.setDataValue(
                 altCheck,
                 `${
                   isNaN(formulaResult)
                     ? formulaResult
-                    : parseInt(formulaResult).toPrecision(4)
+                    : parseFloat(formulaResult).toPrecision(4)
                 }`
               );
               parser.variables = allVariables;
@@ -316,12 +323,12 @@ function initializeApp(data, project) {
             let newCalc = parser.parse(newValue).result;
             currentVars.alt[variableName] = isNaN(newCalc)
               ? newCalc
-              : parseInt(newCalc).toPrecision(4);
+              : parseFloat(newCalc).toPrecision(4);
             parser.variables = currentVars;
             recalculateDependents(variableName);
             event.node.setDataValue(
               "alt",
-              `${isNaN(newCalc) ? newCalc : parseInt(newCalc).toPrecision(4)}`
+              `${isNaN(newCalc) ? newCalc : parseFloat(newCalc).toPrecision(4)}`
             );
           }
           autoSaveProgress();
@@ -340,7 +347,7 @@ function initializeApp(data, project) {
       Editing = false;
     },
     onCellFocused: (event) => {
-      console.log(Grid.gridOptions.api.getFocusedCell());
+      // console.log(Grid.gridOptions.api.getFocusedCell());
     },
     suppressKeyboardEvent: (keypress) => {
       if (!keypress.editing) {
@@ -567,13 +574,13 @@ function initializeApp(data, project) {
             let formulaResult = parser.parse(definition).result;
             allVars[v][varName] = isNaN(formulaResult)
               ? formulaResult
-              : parseInt(formulaResult).toPrecision(4);
+              : parseFloat(formulaResult).toPrecision(4);
             innerRow.setDataValue(
               v,
               `${
                 isNaN(formulaResult)
                   ? formulaResult
-                  : parseInt(formulaResult).toPrecision(4)
+                  : parseFloat(formulaResult).toPrecision(4)
               }`
             );
             parser.variables = allVars;
@@ -585,11 +592,13 @@ function initializeApp(data, project) {
           let newValue = parser.parse(definition).result;
           parser.variables[innerRow.data.name] = isNaN(newValue)
             ? newValue
-            : parseInt(newValue).toPrecision(4);
+            : parseFloat(newValue).toPrecision(4);
           parser.variables = allVars;
           innerRow.setDataValue(
             "alt",
-            `${isNaN(newValue) ? newValue : parseInt(newValue).toPrecision(4)}`
+            `${
+              isNaN(newValue) ? newValue : parseFloat(newValue).toPrecision(4)
+            }`
           );
           recalculateDependents(varName);
         }
@@ -601,7 +610,7 @@ function initializeApp(data, project) {
     if (!name) return;
     Grid.gridOptions.api.forEachNode((innerRow) => {
       let definition = innerRow.data.definition;
-      if (definition.includes(name)) {
+      if (definition && definition.includes(name)) {
         Grid.gridOptions.api.startEditingCell({
           rowIndex: innerRow.rowIndex,
           colKey: "definition",

@@ -115,11 +115,11 @@ request.onsuccess = function (event) {
                   }
                 );
               } else {
-                console.log(err);
+                showHome();
               }
             });
           } else {
-            console.log(e);
+            showHome();
           }
         });
       }
