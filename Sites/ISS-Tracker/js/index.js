@@ -94,7 +94,9 @@ modelLoader.load(
     issMeshPos.add(issModel.scene);
   },
   function (loading) {
-    if (`${loading.total}` == `${loading.loaded}`) {
+    console.log(loading.total);
+    console.log(loading.loaded);
+    if (`44495916` == `${loading.loaded}`) {
       setTimeout(() => {
         loadScreen.classList.add("invisible");
         introTitle.classList.add("slide_in");
