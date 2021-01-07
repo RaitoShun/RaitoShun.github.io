@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1920, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Questrial|Text+Me+One&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, initial-scale=1.0" />
+    <link rel="icon" href="../../images/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Questrial|Text+Me+One&display=swap"
+      rel="stylesheet"
+    />
     <title>🌌 Where are my astronauts? ☄️</title>
     <style>
-        body {
-            margin: 0;
-        }
-    
-        canvas {
-            display: block;
-            width: 80% !important;
-            float: right;
-        }
-    </style>
-    <link rel="stylesheet" type="text/css" href="css/index.css"/>
-    <div id='load_screen'><div class="loader"></div> <h2>This could take a while, we're doing complex calculations!</h2></div>
-    <div class='menu'>
-        <div class="intro">
-            <h1>ISS Tracker</h1>
-            <p>To move the Earth around, use your mouse, left click and drag! Scroll to zoom in and out.</p>
-        </div>
-    </div>
-</head>
-<body>
+      body {
+        margin: 0;
+      }
 
-<script src="js/three.js"></script>
-<script src="js/GLTFLoader.js"></script>
-<script src="js/orbitControls.js"></script>
-<script src="js/index.js"></script>   
-</body>
+      canvas {
+        display: block;
+        width: 80% !important;
+        float: right;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <div id="load_screen">
+      <div class="loader"></div>
+      <h2>This could take a while, we're doing complex calculations!</h2>
+    </div>
+    <div class="menu">
+      <div class="intro">
+        <h1>ISS Tracker</h1>
+        <p>
+          To move the Earth around, use your mouse, left click and drag! Scroll
+          to zoom in and out.
+        </p>
+      </div>
+    </div>
+  </head>
+  <body>
+    <script src="js/three.js" defer></script>
+    <script src="js/GLTFLoader.js" defer></script>
+    <script src="js/orbitControls.js" defer></script>
+    <script src="js/index.js" defer></script>
+  </body>
 </html>
