@@ -14,7 +14,8 @@ window.addEventListener("keydown", function (e) {
     e.key == "Escape" ||
     e.key == "Tab" ||
     e.key == "Backspace" ||
-    e.key == "Space"
+    e.key == "Space" ||
+    e.key == "Enter"
   ) {
     if (errorModal.style.display != "none") {
       errorModal.style.display = "none";
@@ -254,8 +255,18 @@ function initializeApp(data, project) {
                   );
                   return false;
                 case "#NAME?":
+                  let variables = newValue.split(/\W/);
+                  let missing = [];
+                  variables.forEach((v) => {
+                    if (!parser.variables[v]) {
+                      if (isNaN(v)) missing.push(v);
+                    }
+                  });
                   showError(
-                    "A variable here doesn't exist. Retype the formula carefully."
+                    missing.toString() +
+                      ` ${
+                        missing.length > 1 ? "do" : "does"
+                      } not exist. Retype the formula carefully.`
                   );
                   return false;
                 case "#N/A":
@@ -497,7 +508,8 @@ function initializeApp(data, project) {
       editable: true,
       headerClass: "closable",
       cellClassRules: {
-        "grid-green": "!data.definition",
+        "grid-white": "!data.definition && data.alt == '0'",
+        "grid-green": "data.alt && !data.definition",
         "grid-blue": "data.definition",
       },
       resizable: true,
@@ -511,7 +523,7 @@ function initializeApp(data, project) {
       }
       parser.variables[altCheck] = Object.assign({}, newAltGroup);
       Grid.gridOptions.api.forEachNode((innerRow) => {
-        innerRow.data[altCheck] = "0";
+        innerRow.data[altCheck] = 0;
       });
       Grid.gridOptions.api.setColumnDefs(currentColumns);
       autoSaveProgress();

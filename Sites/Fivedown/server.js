@@ -77,8 +77,9 @@ request.onsuccess = function (event) {
             resizable: true,
             lockPinned: true,
             cellClassRules: {
-              "grid-green": "!data.definition",
+              "grid-green": "!data.definition && data.alt",
               "grid-blue": "data.definition",
+              "grid-white": "!data.definition && data.alt =='0'",
             },
           },
           {
