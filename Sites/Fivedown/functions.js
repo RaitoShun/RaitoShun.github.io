@@ -498,7 +498,7 @@ function initializeApp(data, project) {
     let currentColumns = Grid.gridOptions.columnDefs;
     let altNumber;
     if (Alts == 0) {
-      removedAlts.sort((a, b) => a > b);
+      removedAlts.sort((a, b) => a - b);
     }
     Alts++;
     altNumber = removedAlts.pop();
@@ -514,18 +514,25 @@ function initializeApp(data, project) {
       },
       resizable: true,
     });
+    Grid.gridOptions.api.setColumnDefs(currentColumns);
 
     if (Alts > 0) {
       let altCheck = "alt" + (altNumber ? altNumber : Alts);
       let newAltGroup = parser.variables.alt;
-      for (v in newAltGroup) {
-        newAltGroup[v] = "0";
-      }
-      parser.variables[altCheck] = Object.assign({}, newAltGroup);
+      parser.variables[altCheck] = JSON.parse(JSON.stringify(newAltGroup));
       Grid.gridOptions.api.forEachNode((innerRow) => {
-        innerRow.data[altCheck] = 0;
+        let name = innerRow.data.name;
+        if (name && innerRow.data.definition) {
+          innerRow.data[altCheck] = parser.variables[altCheck][name];
+          Editing = true;
+          recalculateDependents(name);
+        } else if (name && !innerRow.data.definition) {
+          parser.variables[altCheck][name] = 0;
+          innerRow.data[altCheck] = 0;
+          Editing = true;
+          recalculateDependents(name);
+        }
       });
-      Grid.gridOptions.api.setColumnDefs(currentColumns);
       autoSaveProgress();
       initCloseButts();
     }
