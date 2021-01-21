@@ -84,7 +84,7 @@ issLongLat.add(issMeshPos);
 
 //ISS 3D model loaded in here
 modelLoader.load(
-  "assets/models/ISS_stationary.glb",
+  "assets/models/ISS.glb",
   function (issModel) {
     //Make ISS Model Smaller
     issModel.scene.scale.x = 0.001;
@@ -94,7 +94,7 @@ modelLoader.load(
     issMeshPos.add(issModel.scene);
   },
   function (loading) {
-    if (`44495916` == `${loading.loaded}`) {
+    if (`1689904` == `${loading.loaded}`) {
       setTimeout(() => {
         loadScreen.classList.add("invisible");
         introTitle.classList.add("slide_in");
@@ -122,16 +122,6 @@ modelLoader.load(
     console.error(error);
   }
 );
-
-//Creating the Bubble around the ISS
-var bubbleGeometry = new THREE.SphereGeometry(0.15, 24, 24);
-var bubbleMaterial = new THREE.MeshPhongMaterial({
-  color: "#ffffff",
-  transparent: true,
-  opacity: 0.1,
-});
-var bubbleMesh = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
-issMeshPos.add(bubbleMesh);
 
 //Wrapper for Earth and ISS issLongLat
 var mainWrapper = new THREE.Object3D();
