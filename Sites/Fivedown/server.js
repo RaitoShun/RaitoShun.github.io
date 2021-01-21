@@ -38,7 +38,13 @@ request.onsuccess = function (event) {
         Alts: "0",
         removedAlts: [],
         variables: { alt: {} },
-        rowData: [],
+        rowData: Array(10).fill({
+          definition: "",
+          name: "",
+          description: "",
+          alt: "0",
+          unit: "",
+        }),
         columnDefs: [
           {
             headerName: "",

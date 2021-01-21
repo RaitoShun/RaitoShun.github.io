@@ -346,6 +346,16 @@ function initializeApp(data, project) {
         }
       }
     },
+    onCellFocused: (event) => {
+      let cols = Grid.gridOptions.api.getColumnDefs();
+      let selectedCell = Grid.gridOptions.api.getFocusedCell();
+      let numRows = Grid.gridOptions.rowData.length;
+      let check1 = selectedCell.rowIndex === numRows - 1;
+      let check2 = selectedCell.column.colId == cols[cols.length - 1].field;
+      if (check1 && check2) {
+        addRows();
+      }
+    },
     onCellEditingStarted: (event) => {
       if (event.data.definition && event.column.colId.includes("alt")) {
         Grid.gridOptions.api.stopEditing(true);
@@ -356,9 +366,6 @@ function initializeApp(data, project) {
         );
       }
       Editing = false;
-    },
-    onCellFocused: (event) => {
-      // console.log(Grid.gridOptions.api.getFocusedCell());
     },
     suppressKeyboardEvent: (keypress) => {
       if (!keypress.editing) {
@@ -413,6 +420,7 @@ function initializeApp(data, project) {
     });
   }
   initCloseButts();
+
 
   newColButt.onclick = function () {
     loadMore();
@@ -560,6 +568,11 @@ function initializeApp(data, project) {
   }
 
   function addRows() {
+    let selectedRows = Grid.gridOptions.api.getSelectedNodes();
+    let addIndex = selectedRows.length
+      ? selectedRows[selectedRows.length - 1].rowIndex
+      : null;
+
     let newRow = {
       definition: "",
       name: "",
@@ -572,10 +585,19 @@ function initializeApp(data, project) {
     for (v in currentAlts) {
       newRow[v] = "0";
     }
-    Grid.gridOptions.rowData.push(newRow);
-    Grid.gridOptions.api.applyTransaction({
-      add: [newRow],
-    });
+   
+    if (!addIndex && addIndex !== 0) {
+       Grid.gridOptions.rowData.push(newRow)
+      Grid.gridOptions.api.applyTransaction({
+        add: [newRow],
+      });
+    } else {
+       Grid.gridOptions.rowData.splice(newRow,addIndex)
+      Grid.gridOptions.api.applyTransaction({
+        add: [newRow],
+        addIndex: addIndex + 1,
+      });
+    }
     autoSaveProgress();
   }
 
