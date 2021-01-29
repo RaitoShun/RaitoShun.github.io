@@ -13,7 +13,6 @@ window.addEventListener("keydown", function (e) {
   if (
     e.key == "Escape" ||
     e.key == "Tab" ||
-    e.key == "Backspace" ||
     e.key == "Space" ||
     e.key == "Enter"
   ) {
@@ -68,7 +67,7 @@ function initializeApp(data, project) {
     rowSelection: "multiple",
     onCellValueChanged: function (event) {
       if (!Editing) {
-        Editing = true;
+        console.log("boom");
         let row = event.node.rowIndex,
           column = event.column.colId,
           oldValue = event.oldValue,
@@ -168,8 +167,9 @@ function initializeApp(data, project) {
             return;
           }
           Editing = true;
+
           assignNewAlts();
-          if (oldValue) changeNames(oldValue, newValue); // Still to do!
+          if (oldValue) changeDisplayedVariableNames(oldValue, newValue); // Still to do!
         }
 
         if (column.includes("alt")) {
@@ -200,7 +200,7 @@ function initializeApp(data, project) {
           if (Alts > 0) {
             parser.variables[event.column.colId][variableName] = newValue;
             Editing = true;
-            recalculateDependents(variableName);
+            recalcuateVarDependents(variableName);
           } else {
             let currentValues = parser.variables.alt;
             currentValues[variableName] = isNaN(newValue)
@@ -208,7 +208,7 @@ function initializeApp(data, project) {
               : parseFloat(newValue).toPrecision(4);
             parser.variables.alt = currentValues;
             Editing = true;
-            recalculateDependents(variableName);
+            recalcuateVarDependents(variableName);
           }
           autoSaveProgress();
           return;
@@ -319,7 +319,7 @@ function initializeApp(data, project) {
                 }`
               );
               parser.variables = allVariables;
-              recalculateDependents(variableName);
+              recalcuateVarDependents(variableName);
               altIndex++;
             }
           } else {
@@ -336,7 +336,7 @@ function initializeApp(data, project) {
               ? newCalc
               : parseFloat(newCalc).toPrecision(4);
             parser.variables = currentVars;
-            recalculateDependents(variableName);
+            recalcuateVarDependents(variableName);
             event.node.setDataValue(
               "alt",
               `${isNaN(newCalc) ? newCalc : parseFloat(newCalc).toPrecision(4)}`
@@ -344,16 +344,6 @@ function initializeApp(data, project) {
           }
           autoSaveProgress();
         }
-      }
-    },
-    onCellFocused: (event) => {
-      let cols = Grid.gridOptions.api.getColumnDefs();
-      let selectedCell = Grid.gridOptions.api.getFocusedCell();
-      let numRows = Grid.gridOptions.rowData.length;
-      let check1 = selectedCell.rowIndex === numRows - 1;
-      let check2 = selectedCell.column.colId == cols[cols.length - 1].field;
-      if (check1 && check2) {
-        addRows();
       }
     },
     onCellEditingStarted: (event) => {
@@ -368,6 +358,25 @@ function initializeApp(data, project) {
       Editing = false;
     },
     suppressKeyboardEvent: (keypress) => {
+      if (keypress.event.key === "Tab") {
+        let cols = Grid.gridOptions.api.getColumnDefs();
+        let numRows = Grid.gridOptions.rowData.length;
+        let check1 = keypress.node.rowIndex === numRows - 1;
+        let check2 = keypress.column.colId == cols[cols.length - 1].field;
+        if (check1 && check2) {
+          for (let i = 0; i < 6; i++) {
+            addNewRow();
+          }
+          Grid.gridOptions.api.setFocusedCell(0, "name", null);
+          return false;
+        }
+        return false;
+      }
+      if (keypress.event.key == "+" && !keypress.editing) {
+        keypress.event.preventDefault();
+        addNewRow();
+        return true;
+      }
       if (!keypress.editing) {
         let dependancy = false;
         let isDeleteKey = keypress.event.keyCode === 46;
@@ -397,7 +406,7 @@ function initializeApp(data, project) {
               delete parser.variables.alt[varName];
             }
             const selectedRows = keypress.api.getSelectedRows();
-            Grid.gridOptions.rowData.pop();
+            Grid.gridOptions.rowData.splice(keypress.node.rowIndex, 1);
             Grid.gridOptions.api.applyTransaction({ remove: selectedRows });
           }
           autoSaveProgress();
@@ -415,18 +424,17 @@ function initializeApp(data, project) {
     let closeButtons = document.querySelectorAll(".cross");
     closeButtons.forEach((butt) => {
       butt.addEventListener("click", function (e) {
-        removeMore(e.target.parentElement.getAttribute("col-Id"));
+        removeAltColumn(e.target.parentElement.getAttribute("col-Id"));
       });
     });
   }
   initCloseButts();
 
-
   newColButt.onclick = function () {
-    loadMore();
+    addMoreAltCols();
   };
   newRowButt.onclick = function () {
-    addRows();
+    addNewRow();
   };
   function autoSaveProgress() {
     let newRows = [];
@@ -502,7 +510,7 @@ function initializeApp(data, project) {
     autoSaveProgress();
   };
 
-  function loadMore() {
+  function addMoreAltCols() {
     let currentColumns = Grid.gridOptions.columnDefs;
     let altNumber;
     if (Alts == 0) {
@@ -533,12 +541,12 @@ function initializeApp(data, project) {
         if (name && innerRow.data.definition) {
           innerRow.data[altCheck] = parser.variables[altCheck][name];
           Editing = true;
-          recalculateDependents(name);
+          recalcuateVarDependents(name);
         } else if (name && !innerRow.data.definition) {
           parser.variables[altCheck][name] = 0;
           innerRow.data[altCheck] = 0;
           Editing = true;
-          recalculateDependents(name);
+          recalcuateVarDependents(name);
         }
       });
       autoSaveProgress();
@@ -546,7 +554,7 @@ function initializeApp(data, project) {
     }
   }
 
-  function removeMore(id) {
+  function removeAltColumn(id) {
     if (Alts > 0) {
       Alts--;
       let currentColumns = Grid.gridOptions.columnDefs;
@@ -567,7 +575,7 @@ function initializeApp(data, project) {
     }
   }
 
-  function addRows() {
+  function addNewRow() {
     let selectedRows = Grid.gridOptions.api.getSelectedNodes();
     let addIndex = selectedRows.length
       ? selectedRows[selectedRows.length - 1].rowIndex
@@ -585,14 +593,14 @@ function initializeApp(data, project) {
     for (v in currentAlts) {
       newRow[v] = "0";
     }
-   
+
     if (!addIndex && addIndex !== 0) {
-       Grid.gridOptions.rowData.push(newRow)
+      Grid.gridOptions.rowData.push(newRow);
       Grid.gridOptions.api.applyTransaction({
         add: [newRow],
       });
     } else {
-       Grid.gridOptions.rowData.splice(newRow,addIndex)
+      Grid.gridOptions.rowData.splice(addIndex, 0, newRow);
       Grid.gridOptions.api.applyTransaction({
         add: [newRow],
         addIndex: addIndex + 1,
@@ -601,7 +609,7 @@ function initializeApp(data, project) {
     autoSaveProgress();
   }
 
-  const recalculateDependents = (name) => {
+  const recalcuateVarDependents = (name) => {
     Grid.gridOptions.api.forEachNode((innerRow) => {
       if (innerRow.data.name == name || !innerRow.data.definition) return;
       let varName = innerRow.data.name;
@@ -625,7 +633,7 @@ function initializeApp(data, project) {
               }`
             );
             parser.variables = allVars;
-            recalculateDependents(varName);
+            recalcuateVarDependents(varName);
           }
         } else {
           let allVars = parser.variables;
@@ -641,13 +649,13 @@ function initializeApp(data, project) {
               isNaN(newValue) ? newValue : parseFloat(newValue).toPrecision(4)
             }`
           );
-          recalculateDependents(varName);
+          recalcuateVarDependents(varName);
         }
       }
     });
   };
 
-  var changeNames = (name, newName) => {
+  var changeDisplayedVariableNames = (name, newName) => {
     if (!name) return;
     Grid.gridOptions.api.forEachNode((innerRow) => {
       let definition = innerRow.data.definition;
