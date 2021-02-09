@@ -33,6 +33,7 @@ Note:  If possible, Please edit the SASS Files and
    ========================================================================== */
 body {
   font-family: CircularStd;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -93,6 +94,12 @@ p {
 @media (max-width: 992px) {
   .space {
     padding: 40px 0;
+  }
+  .banner-img-2 {
+    position: relative !important;
+  }
+  .insurance-title_wrap {
+    padding: 0 !important;
   }
 }
 
