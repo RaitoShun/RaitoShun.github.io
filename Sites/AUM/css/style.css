@@ -553,6 +553,9 @@ header {
     right: 0;
     max-width: 60%;
   }
+  .testi-img_wrap img {
+    left: 100px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -950,7 +953,7 @@ Surjith S M / @surjithctly
 @media (min-width: 992px) {
   .pricing-bg02 {
     position: absolute;
-    right: 0;
+    left: 30%;
   }
 }
 
