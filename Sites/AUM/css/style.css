@@ -933,28 +933,24 @@ Surjith S M / @surjithctly
 }
 
 .pricing-bg02 {
-  position: absolute;
-  right: 0;
+  position: relative;
+  left: 0;
   bottom: 0;
   z-index: -1;
+  height: 100vh;
 }
 
 @media (max-width: 1200px) {
   .pricing-bg02 {
-    bottom: 42%;
+    /* bottom: 42%; */
     width: 45%;
   }
 }
 
-@media (max-width: 1200px) {
-  .pricing-bg02 {
-    display: none;
-  }
-}
-
 @media (min-width: 992px) {
-  .responsive-bg {
-    display: none;
+  .pricing-bg02 {
+    position: absolute;
+    right: 0;
   }
 }
 

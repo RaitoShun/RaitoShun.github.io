@@ -6,7 +6,7 @@ error_reporting(0);
  * ------------------------------------
  */
  
-$to    = "test@surjithctly.in"; // <--- Your email ID here
+$to    = "bhavna@awakenultimatemanifestation.com"; // <--- Your email ID here
 
 $server_email = 'webmaster@web3canvas.com';  // Your server email to authenticate outgoing emails. eg: name@yourdomain.com
 /*
@@ -23,9 +23,9 @@ $website = dirname($website);
 
 if (isset($email) && isset($name)) {
 
-	$subject  = "New Contact Message from $name"; // <--- Contact for Subject here.
+	$subject  = "New Message from Awaken Ultimate Manifestation"; // <--- Contact for Subject here.
  
-	$msg      = 'Hello Admin, <br/> <br/> Here are the Message details:';
+	$msg      = 'Hello Bhavna, <br/> <br/> Here is the message:';
 	$msg     .= ' <br/> <br/> <table border="1" cellpadding="6" cellspacing="0" style="border: 1px solid  #eeeeee;">';
 	foreach ($_POST as $label => $value) {
 	    $msg .= "<tr><td width='100'>". ucfirst($label) . "</td><td width='300'>" . $value . " </tr>";
