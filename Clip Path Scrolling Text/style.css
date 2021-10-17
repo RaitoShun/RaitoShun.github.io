@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+section div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0e2330;
+}
+
+section div:nth-child(2){
+    background-color: #e91e63;
+    clip-path: circle(200px at center);
+}
+
+section div h2{
+    position: absolute;
+    left: 0;
+    font-size: 10em;
+    white-space: nowrap;
+    line-height: 100vh;
+    cursor: default;
+    color: white;
+    animation: scroll 120s linear infinite;
+}
+
+section div:nth-child(2) h2{
+    -webkit-text-stroke: 2px;
+    -webkit-text-stroke-color: white;
+    color: transparent;
+}
+
+@keyframes scroll{
+    from{
+        transform: translateX(0%);
+    }
+
+    to{
+        transform: translateX(-100%);
+    }
+}

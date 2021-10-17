@@ -1,0 +1,141 @@
+.basic-grid {
+  display: grid;
+  /* spacing both horizontal and vertical */
+  gap: 1rem;
+  /* Explicit grid, not flexible. fr is fraction of space available */
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  /* use repeat as helper function */
+  grid-template-columns: repeat(15, 1fr);
+  /* Same thing but allowing overflows */
+  grid-template-columns: repeat(15, minmax(240px, 1fr));
+  /* Final implicit grid, autofit calculates on the fly */
+  /* autofill also exists,autofill makes new cols on space rather than making components stretch to fit */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.photo-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  /* setting the rows to be wide enough automatically*/
+  grid-auto-rows: 240px;
+}
+
+/* To ensure it looks good on mobile */
+@media screen and (min-width: 600px) {
+  .card-tall {
+    /* Go from row 1 and end at row 4 */
+    grid-row: 1/ 4;
+    /* spans 2 rows from start, slash shows the ending*/
+    grid-row: span 2 / auto;
+  }
+
+  .card-wide {
+    /* Same logic as above */
+    grid-column: span 2 / auto;
+  }
+}
+
+.animated-grid {
+  height: 85vh;
+  display: grid;
+  gap: 1rem;
+  /* make explicit grid for a single structure */
+  /* can get super creative with areas string */
+  grid-template-areas:
+    "a b c d e f"
+    "x x x x x x"
+    "g h i j k l";
+  /* explicitly set row and column sizes */
+  grid-template-rows: repeat(6, 16%);
+  grid-template-columns: 240px auto 240px;
+  /* Css Variable */
+  --stagger-delay: 100ms;
+}
+
+@keyframes enterBedazzle {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+    filter: hue-rotate(180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+}
+.animated-grid .card {
+  background-color: rgb(0, 213, 241);
+  /* animation duration timing-function */
+  animation: enterBedazzle 700ms ease-out;
+  /* Sets to first keyframe value */
+  animation-fill-mode: backwards;
+}
+/* using child selectors to assign grid space on the actual page */
+.animated-grid .card:nth-child(1) {
+  grid-area: a;
+  /* smart way of delaying an animation, easier if sass or a for loop*/
+  animation-delay: calc(1 * var(--stagger-delay));
+}
+.animated-grid .card:nth-child(2) {
+  grid-area: b;
+  animation-delay: calc(2 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(3) {
+  grid-area: c;
+  animation-delay: calc(3 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(4) {
+  grid-area: d;
+  animation-delay: calc(4 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(5) {
+  grid-area: e;
+  animation-delay: calc(5 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(6) {
+  grid-area: f;
+  animation-delay: calc(6 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(7) {
+  grid-area: g;
+  animation-delay: calc(7 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(8) {
+  grid-area: h;
+  animation-delay: calc(8 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(9) {
+  grid-area: i;
+  animation-delay: calc(9 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(10) {
+  grid-area: j;
+  animation-delay: calc(10 * var(--stagger-delay));
+}
+
+.animated-grid .card:nth-child(11) {
+  grid-area: k;
+  animation-delay: calc(11 * var(--stagger-delay));
+}
+.animated-grid .card:nth-child(12) {
+  grid-area: l;
+  animation-delay: calc(12 * var(--stagger-delay));
+}
+.animated-grid .card:nth-child(13) {
+  grid-area: m;
+  animation-delay: calc(13 * var(--stagger-delay));
+}
+.animated-grid .card:last-child {
+  grid-area: x;
+  animation-delay: calc(16 * var(--stagger-delay));
+}

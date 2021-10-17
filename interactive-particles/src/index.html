@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Abraham Thiao Portfolio</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css" />
+    <script>
+      document.documentElement.className = "js";
+      var supportsCssVars = function () {
+        var e,
+          t = document.createElement("style");
+        return (
+          (t.innerHTML = "root: { --tmp-var: bold; }"),
+          document.head.appendChild(t),
+          (e = !!(
+            window.CSS &&
+            window.CSS.supports &&
+            window.CSS.supports("font-weight", "var(--tmp-var)")
+          )),
+          t.parentNode.removeChild(t),
+          e
+        );
+      };
+      supportsCssVars() ||
+        alert(
+          "Please view this demo in a modern browser that supports CSS Variables."
+        );
+    </script>
+  </head>
+  <body class="demo-1">
+    <div id="tsparticles"></div>
+    <div class="scroll-indicator">
+      <div class="scroll-circle"></div>
+    </div>
+    <main style="width: 90%">
+      <section>
+        <div class="container"></div>
+        <div id="landing">
+          <h2>Hello There,</h2>
+          <h1>
+            I’m <b>Abraham Thiao</b> and I will help you to
+            <b>scale your business</b>, <b>build your dream app</b> or
+            <b>solve your unique problems</b>.
+          </h1>
+          <div class="buttons-landing">
+            <a href="#testimonials">
+              <div class="button button-inactive">Let's see why</div>
+            </a>
+            <a href="#contact">
+              <div class="button button-active">Let's talk how</div>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section id="testimonials">
+        <h1>What my clients say about me</h1>
+        <div class="embla">
+          <div class="embla__viewport">
+            <div class="embla__container">
+              <div class="embla__slide">
+                <div class="embla__slide__inner">
+                  <p>
+                    If there is a 10-star rating, I would rate him 10 stars!
+                    Abraham is the best. Keep up the extremely good work!
+                  </p>
+                  <p>- Joyce C, Upwork Client</p>
+                </div>
+              </div>
+              <div class="embla__slide">
+                <div class="embla__slide__inner">
+                  <p>
+                    He did a fantastic job with my website. Super friendly and
+                    very open to exploring new ways if something isn't working.
+                    Does all changes as needed and makes sure that the client is
+                    completely satisfied! Amazing team player!
+                  </p>
+                  <p>- Anonymous Upwork Client</p>
+                </div>
+              </div>
+              <div class="embla__slide">
+                <div class="embla__slide__inner">
+                  <p>
+                    Abraham is a legend. His work ethic is great and is super
+                    friendly and professional. Definitely hire him! 100/100
+                  </p>
+                  <p>- Surya B, Upwork Client</p>
+                </div>
+              </div>
+              <div class="embla__slide">
+                <div class="embla__slide__inner">
+                  <p>
+                    My company was is need of an updated and more professional
+                    website in order to attract more clients and generate more
+                    traffic through it to increase the exposure and grow the
+                    client base for the company. Abraham Thiao was tasked with
+                    this project and from the first meeting he was able to
+                    understand and identify with the what was required through
+                    the look and feel and the content of the site. His ability
+                    to provide a quick turn-around time with a strong attention
+                    to detail enabled us to have our site up and running as
+                    required in a short period of time. I can strongly recommend
+                    him and his professional ability to assist any clients
+                    requiring any form of web site design or enhancement, social
+                    media requirements or mobile application requirements, they
+                    will not be disappointed.
+                  </p>
+                  <p>- Clyde E, Former Owner of Clean-It Solutions</p>
+                </div>
+              </div>
+              <div class="embla__slide">
+                <div class="embla__slide__inner">
+                  <p>Employee of the Month x 2</p>
+                  <p>- Matrix Tools LLC.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="embla__button embla__button--prev" type="button">
+            <svg
+              class="embla__button__svg"
+              viewBox="137.718 -1.001 366.563 643.999"
+            >
+              <path
+                d="M428.36 12.5c16.67-16.67 43.76-16.67 60.42 0 16.67 16.67 16.67 43.76 0 60.42L241.7 320c148.25 148.24 230.61 230.6 247.08 247.08 16.67 16.66 16.67 43.75 0 60.42-16.67 16.66-43.76 16.67-60.42 0-27.72-27.71-249.45-249.37-277.16-277.08a42.308 42.308 0 0 1-12.48-30.34c0-11.1 4.1-22.05 12.48-30.42C206.63 234.23 400.64 40.21 428.36 12.5z"
+              ></path>
+            </svg>
+          </button>
+          <button class="embla__button embla__button--next" type="button">
+            <svg class="embla__button__svg" viewBox="0 0 238.003 238.003">
+              <path
+                d="M181.776 107.719L78.705 4.648c-6.198-6.198-16.273-6.198-22.47 0s-6.198 16.273 0 22.47l91.883 91.883-91.883 91.883c-6.198 6.198-6.198 16.273 0 22.47s16.273 6.198 22.47 0l103.071-103.039a15.741 15.741 0 0 0 4.64-11.283c0-4.13-1.526-8.199-4.64-11.313z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+      <section id="skills">
+        <h1>My toolbelt</h1>
+        <div id="container-helix"></div>
+      </section>
+      <section id="projects">
+        <h1>A few of my projects</h1>
+        <div class="wrapper">
+          <div class="container-card" id="c0">
+            <div class="image" id="i0">
+              <div class="city"></div>
+            </div>
+            <div class="story" id="s0">
+              <div class="info">
+                <h3>Pyramids</h3>
+                <p>
+                  Built during a time when Egypt was one of the richest and most
+                  powerful civilizations in the world. Their massive scale
+                  reflects the unique role that the pharaoh played in ancient
+                  Egyptian society.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="container-card" id="c1">
+            <div class="image" id="i1">
+              <div class="city"></div>
+            </div>
+            <div class="story" id="s1">
+              <div class="info">
+                <h3>Stonehenge</h3>
+                <p>
+                  Stonehenge is a prehistoric monument in Wiltshire, England. It
+                  was constructed in several stages between 3000 and 1500 B.C.,
+                  spanninng to the Bronze Age.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="container-card" id="c2">
+            <div class="image" id="i2">
+              <div class="city"></div>
+            </div>
+            <div class="story" id="s2">
+              <div class="info">
+                <h3>Tower of Pisa</h3>
+                <p>
+                  The Leaning Tower of Pisa or simply the Tower of Pisa is the
+                  campanile, or freestanding bell tower, of the cathedral of the
+                  Italian city of Pisa, known worldwide for its unintended tilt
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="designs">
+        <h1>My freelance designs</h1>
+        <div class="photo-grid">
+          <div
+            class="card card-tall"
+            style="background-image: url('/images/designs/1.png')"
+          ></div>
+          <div
+            class="card"
+            style="background-image: url('/images/designs/3.png')"
+          ></div>
+          <div
+            class="card card-wide"
+            style="background-image: url('/images/designs/10.png')"
+          ></div>
+          <div
+            class="card"
+            style="background-image: url('/images/designs/4.png')"
+          ></div>
+          <div
+            class="card card-tall"
+            style="background-image: url('/images/designs/2.png')"
+          ></div>
+          <div
+            class="card"
+            style="background-image: url('/images/designs/11.png')"
+          ></div>
+          <div
+            class="card card-wide"
+            style="background-image: url('/images/designs/6.png')"
+          ></div>
+          <div
+            class="card card-tall"
+            style="background-image: url('/images/designs/5.png')"
+          ></div>
+          <div
+            class="card card-wide"
+            style="background-image: url('/images/designs/7.png')"
+          ></div>
+
+          <div
+            class="card card-tall"
+            style="background-image: url('/images/designs/12.png')"
+          ></div>
+          <div
+            class="card card-wide"
+            style="background-image: url('/images/designs/9.png')"
+          ></div>
+        </div>
+      </section>
+      <section id="contact">
+        <div class="contact-info">
+          <h1>Reach me at</h1>
+          <h1>abrahamthiao@gmail.com</h1>
+          <h3>(click to copy)</h3>
+        </div>
+        <h4 class="resume-button">Get my Résumé</h4>
+      </section>
+    </main>
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+    <script type="module" type="text/javascript">
+      const autoplay = (embla, interval) => {
+        let timer = 0;
+        const play = () => {
+          stop();
+          requestAnimationFrame(
+            () => (timer = window.setTimeout(next, interval))
+          );
+        };
+        const stop = () => {
+          window.clearTimeout(timer);
+          timer = 0;
+        };
+        const next = () => {
+          if (embla.canScrollNext()) {
+            embla.scrollNext();
+          } else {
+            embla.scrollTo(0);
+          }
+          play();
+        };
+
+        return { play, stop };
+      };
+      const wrap = document.querySelector(".embla");
+      const viewPort = wrap.querySelector(".embla__viewport");
+      const prevBtn = wrap.querySelector(".embla__button--prev");
+      const nextBtn = wrap.querySelector(".embla__button--next");
+      const embla = EmblaCarousel(viewPort, {
+        dragFree: true,
+        speed: 5,
+        loop: false,
+      });
+      const autoplayer = autoplay(embla, 5000);
+      const disablePrevAndNextBtns = disablePrevNextBtns(
+        prevBtn,
+        nextBtn,
+        embla
+      );
+
+      listenForPrevBtnClick(prevBtn, embla, autoplayer);
+      listenForNextBtnClick(nextBtn, embla, autoplayer);
+
+      embla.on("select", disablePrevAndNextBtns);
+      embla.on("init", disablePrevAndNextBtns);
+
+      embla.on("pointerDown", autoplayer.stop);
+      embla.on("init", autoplayer.play);
+    </script>
+    <script>
+      const listenForPrevBtnClick = (btn, embla, autoplayer) => {
+        const scrollPrev = () => {
+          autoplayer.stop();
+          embla.scrollPrev();
+        };
+        btn.addEventListener("click", scrollPrev, false);
+      };
+      const listenForNextBtnClick = (btn, embla, autoplayer) => {
+        const scrollNext = () => {
+          autoplayer.stop();
+          embla.scrollNext();
+        };
+        btn.addEventListener("click", scrollNext, false);
+      };
+      const disablePrevNextBtns = (prevBtn, nextBtn, embla) => {
+        return () => {
+          if (embla.canScrollPrev()) prevBtn.removeAttribute("disabled");
+          else prevBtn.setAttribute("disabled", "disabled");
+
+          if (embla.canScrollNext()) nextBtn.removeAttribute("disabled");
+          else nextBtn.setAttribute("disabled", "disabled");
+        };
+      };
+    </script>
+    <script src="js/scroll.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/bas.js"></script>
+    <script src="js/OrbitControls-2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.36.0/tsparticles.min.js"></script>
+    <script type="module" src="js/helix.js"></script>
+  </body>
+</html>

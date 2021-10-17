@@ -1,0 +1,10 @@
+{
+  "name": "abiciao.github.io",
+  "version": "1.0.0",
+  "description": "My portfolio",
+  "main": "index.js",
+  "repository": "https://github.com/RaitoShun/RaitoShun.github.io.git",
+  "author": "abiciao <abrahamthiao@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
